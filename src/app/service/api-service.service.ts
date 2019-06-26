@@ -13,11 +13,10 @@ export class ApiServiceService {
   login(loginData) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Access-Control-Allow-Origin': '*',
+      'Accept': 'application/json'
     });
 
-    return this.http.post<any>(this.url + 'api-token-auth', loginData, {
+    return this.http.post<any>(this.url + 'api-token-auth/', loginData, {
       observe: 'response',
       responseType: 'json',
       headers: headers
@@ -29,10 +28,9 @@ export class ApiServiceService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Access-Control-Allow-Origin': '*',
     });
 
-    return this.http.get<any>(this.url + 'news', {
+    return this.http.get<any>(this.url + 'news/', {
       observe: 'response',
       responseType: 'json',
       headers: headers,
