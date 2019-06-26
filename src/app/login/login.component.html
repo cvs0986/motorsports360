@@ -1,0 +1,29 @@
+<div class="login-wrapper-main">
+  <p-toast></p-toast>
+  <div class="login-screen">
+    <div class="left-item">
+      <div class="login-panel">
+        <div class="inner-login-panel">
+          <div class="content-panel">
+            <!-- <img src="../../assets/vserve.png" width="80" alt=""> -->
+            <h2 style="color: #B52F31">MOTORSPORT</h2>
+            <h3 class="title mt-4">Sign In</h3>
+            <form>
+              <input type="text" placeholder="USERNAME" [(ngModel)]="username" [ngModelOptions]="{standalone: true}" />
+              <input type="password" placeholder="PASSWORD" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" />
+              <button type="button" (click)="userLogin()">Let's Go</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-item">
+      <div class="slider-panel">
+        <div class="inner-slider-panel">
+          <!-- <p style="font-size: 20px;" class="mt-4">The Smart F&B Manager's <br> Smart Digital Assistant</p> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
