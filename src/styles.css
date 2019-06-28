@@ -1,16 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
-td img {
-  border-radius: 5px;
-}
+@import url('https://fonts.googleapis.com/css?family=Comfortaa:400,500&display=swap');
 
-table {
-  border: 1px solid #f2f2f2 !important;
-}
-
-thead {
-  background: #f2f2f2;
+body {
+  font-family: 'Comfortaa', cursive;
+  font-weight: 500;
+  letter-spacing: .6px;
 }
 
 .ng2-smart-pagination-nav{
   margin-top: 10px;
 }
+

@@ -14,10 +14,11 @@ import { TableModule } from "primeng/table";
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { CalendarModule } from 'primeng/calendar';
 
 // Others Import
 import { Ng2SmartTableModule } from "ng2-smart-table";
-
+import { NgZorroAntdModule, NZ_I18N, en_US } from "ng-zorro-antd";
 
 // Components
 import { AppComponent } from './app.component';
@@ -51,9 +52,11 @@ import { ApiServiceService } from './service/api-service.service';
     TableModule,
     DropdownModule,
     InputTextareaModule,
-    Ng2SmartTableModule
+    Ng2SmartTableModule,
+    CalendarModule,
+    NgZorroAntdModule
   ],
-  providers: [MessageService, ApiServiceService],
+  providers: [MessageService, ApiServiceService, {provide: NZ_I18N, useValue: en_US}],
   bootstrap: [AppComponent]
 })
 

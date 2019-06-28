@@ -1,3 +1,37 @@
-<p-toast></p-toast>
-<ng2-smart-table class="table table-responsive" (deleteConfirm)="onDeleteConfirm($event)" (edit)="onEditRow($event)" (editConfirm)="onSaveConfirm($event)"
- (createConfirm)="onCreateConfirm($event)" [settings]="settings" [source]="data"></ng2-smart-table>
+<div class="row">
+  <h4 class="mb-5"><img src="../../../assets/dashboard.png" width="30" alt="motorsports_news"> Motorsports360 Dashboard</h4>
+</div>
+
+<div class="dashboardInfo mb-5">
+  <nz-descriptions nzTitle="INFORMATION">
+    <nz-descriptions-item nzTitle="Total Users">167</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Users Online">53</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="News Published">356</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Tranding News">
+      <a href="https://www.supercars.com/news/championship/mclaughlin-impresses-in-karting-cameo/">McLaughlin impresses in karting cameo</a>
+    </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Tranding Video">
+      <a href="http://youtube.com/watch?v=WTmX420cb7A">The Evolution of Formula 1 | Race 1000</a>
+    </nz-descriptions-item>
+  </nz-descriptions>
+</div>
+
+
+<div class="trandingNewsCards">
+  <h5><img src="../../../assets/popular.png" width="28" alt="tranding_news"> TRANDING NEWS</h5>
+  <nz-card style="width: 100%;margin-top: 16px" [nzLoading]="loading">
+    <nz-list [nzDataSource]="data" [nzItemLayout]="'vertical'" [nzRenderItem]="item">
+      <ng-template #item let-item>
+        <nz-list-item [nzExtra]="extra">
+          <nz-list-item-meta [nzAvatar]="item.image_url" [nzTitle]="nzTitle" [nzDescription]="item.description">
+            <ng-template #nzTitle><a href="{{ item.news_url }}">{{ item.title }}</a></ng-template>
+          </nz-list-item-meta>
+          <ng-template #extra>
+            <img width="272" alt="newsImg" [src]="item.image_url" style="border-radius: 5px" />
+            <p class="mt-2">Published on {{item.news_date}} {{item.news_time}}</p>
+          </ng-template>
+        </nz-list-item>
+      </ng-template>
+    </nz-list>
+  </nz-card>
+</div>

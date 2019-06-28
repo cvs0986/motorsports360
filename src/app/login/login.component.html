@@ -11,7 +11,7 @@
             <form>
               <input type="text" placeholder="USERNAME" [(ngModel)]="username" [ngModelOptions]="{standalone: true}" />
               <input type="password" placeholder="PASSWORD" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" />
-              <button type="button" (click)="userLogin()">Let's Go</button>
+              <button type="button" nz-button (click)="userLogin()" [nzLoading]="isLoading">Let's Go</button>
             </form>
           </div>
         </div>
@@ -21,7 +21,7 @@
     <div class="right-item">
       <div class="slider-panel">
         <div class="inner-slider-panel">
-          <!-- <p style="font-size: 20px;" class="mt-4">The Smart F&B Manager's <br> Smart Digital Assistant</p> -->
+          
         </div>
       </div>
     </div>

@@ -1,114 +1,68 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/components/common/api';
 
+const count = 5;
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
+
 export class DashboardComponent implements OnInit {
-  settings = {
-    columns: {
-      id: {
-        title: 'S.No.',
-        editable: false,
-        filter: false
-      },
-      image_url: {
-        title: 'Image',
-        type: 'html',
-        filter: false,
-        valuePrepareFunction: (value) => { return `<img src="${value}" width="80" style="border-radius: 22px;" />` }
-      },
-      headline: {
-        title: 'Headline'
-      },
-      author: {
-        title: 'Author/Series',
-        editable: false,
-        filter: {
-          type: 'list',
-          config: {
-            list: [
-              { value: 'Commodo Sit', title: 'Commodo Sit' },
-              { value: 'Tortor', title: 'Tortor' },
-            ]
-          }
-        }
-      },
-      news_url: {
-        title: 'News Url',
-        editable: false
-      },
-      description: {
-        title: 'Description',
-        editor: {
-          type: 'textarea'
-        }
-      }
+  loading: boolean = true;
+  initLoading = true; // bug
+  loadingMore = false;
+  data: any[] = [
+    { 
+      image_url: 'https://dscxx9mer61ho.cloudfront.net/wp-content/uploads/58376170_2106097679438695_7221677939866206208_o.jpg',
+      title: 'McLaughlin impresses in karting cameo',
+      description: "Supercars champion Scott McLaughlin shone on and off the track at Easter's New Zealand Kart Championships, concluding his return to competitive karting with a runner-up finish.",
+      news_date: '12 June 2019',
+      news_time: '06:48 PM',
+      news_link: 'https://www.supercars.com/news/championship/mclaughlin-impresses-in-karting-cameo/'
     },
-    add: {
-      addButtonContent: 'Add'
+    {
+      image_url: 'https://dscxx9mer61ho.cloudfront.net/wp-content/uploads/2019VASCR1_ADL500_DKIMG7922.jpg',
+      title: 'Klimenko’s relaxed approach to driver deals',
+      description: "Penrite Racing owner Betty Klimenko is keen to keep David Reynolds and Anton De Pasquale for 2020, but is in no rush to lock them into new contracts.",
+      news_date: '18 June 2019',
+      news_time: '04:38 PM',
+      news_link: 'https://www.supercars.com/news/championship/klimenkos-relaxed-approach-to-driver-deals/'
     },
-    edit: {
-      editButtonContent: '<img src="../../../assets/edit.png" width="20"/>',
-      saveButtonContent: '<img src="../../../assets/check-mark.png" width="22"/>',
-      cancelButtonContent: '<img src="../../../assets/close-cross.png" width="22"/>',
-      confirmCreate: true,
-      confirmSave: true,
+    {
+      image_url: 'https://dscxx9mer61ho.cloudfront.net/wp-content/uploads/VASC-ADL500-Super2-056.jpg',
+      title: 'GRM rookie relishing fierce Super2 fight',
+      description: "Dylan O'Keeffe says he was shocked by how fierce the Dunlop Super2 Series competition was during his debut at the Superloop Adelaide 500.",
+      news_date: '18 June 2019',
+      news_time: '04:22 PM',
+      news_link: 'https://www.supercars.com/news/super2/grm-rookie-relishing-fierce-super2-fight/'
     },
-    delete: {
-      deleteButtonContent: '<img src="../../../assets/delete.png" width="20"/>',
-      confirmDelete: true
+    {
+      image_url: 'https://dscxx9mer61ho.cloudfront.net/wp-content/uploads/17-McLaughlin-EV03-19-MH1_4940-1800x1200.jpg',
+      title: "'Fire in the belly': McLaughlin reacts to Mustang changes",
+      description: "Shell V-Power Racing’s Scott McLaughlin says the latest changes to the Ford Mustang will serve as extra motivation in his quest for a second consecutive Supercars title.",
+      news_date: '19 June 2019',
+      news_time: '08:01 AM',
+      news_link: 'https://www.supercars.com/news/championship/fire-in-the-belly-mclaughlin-reacts-to-mustang-changes/'
     },
-    actions: {
-      position: 'right'
-    },
-    pager: {
-      display: true,
-      perPage: 10
+    {
+      image_url: 'https://dscxx9mer61ho.cloudfront.net/wp-content/uploads/VASCR10_DKIMG_16251-1800x1200.jpg',
+      title: 'More light for SuperNight in 2019',
+      description: "Supercars will incorporate key lessons from last year’s Sydney SuperNight as it prepares to light up Barbagallo Raceway for the first time next week.",
+      news_date: '22 June 2019',
+      news_time: '11:56 PM',
+      news_link: 'https://www.supercars.com/news/championship/more-light-for-supernight-in-2019/'
     }
-  };
-
-  data = [
-    { id: 1, image_url: 'https://i.ibb.co/KKM7RVt/beautiful-cellphone-cute-761963.jpg', headline: 'Etiam Ornare Dapibus', author: 'Commodo Sit/Tortor', news_url: 'Dolor Ullamcorper Tristique Sem Pharetra', description: 'Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-    { id: 2, image_url: 'https://i.ibb.co/KKM7RVt/beautiful-cellphone-cute-761963.jpg', headline: 'Etiam Ornare Dapibus', author: 'Commodo Sit/Tortor', news_url: 'Dolor Ullamcorper Tristique Sem Pharetra', description: 'Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-    { id: 3, image_url: 'https://i.ibb.co/KKM7RVt/beautiful-cellphone-cute-761963.jpg', headline: 'Etiam Ornare Dapibus', author: 'Commodo Sit/Tortor', news_url: 'Dolor Ullamcorper Tristique Sem Pharetra', description: 'Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-    { id: 4, image_url: 'https://i.ibb.co/KKM7RVt/beautiful-cellphone-cute-761963.jpg', headline: 'Etiam Ornare Dapibus', author: 'Commodo Sit/Tortor', news_url: 'Dolor Ullamcorper Tristique Sem Pharetra', description: 'Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-    { id: 5, image_url: 'https://i.ibb.co/KKM7RVt/beautiful-cellphone-cute-761963.jpg', headline: 'Etiam Ornare Dapibus', author: 'Commodo Sit/Tortor', news_url: 'Dolor Ullamcorper Tristique Sem Pharetra', description: 'Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-    { id: 6, image_url: 'https://i.ibb.co/KKM7RVt/beautiful-cellphone-cute-761963.jpg', headline: 'Etiam Ornare Dapibus', author: 'Commodo Sit/Tortor', news_url: 'Dolor Ullamcorper Tristique Sem Pharetra', description: 'Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-    { id: 7, image_url: 'https://i.ibb.co/KKM7RVt/beautiful-cellphone-cute-761963.jpg', headline: 'Etiam Ornare Dapibus', author: 'Commodo Sit/Tortor', news_url: 'Dolor Ullamcorper Tristique Sem Pharetra', description: 'Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-    { id: 8, image_url: 'https://i.ibb.co/KKM7RVt/beautiful-cellphone-cute-761963.jpg', headline: 'Etiam Ornare Dapibus', author: 'Commodo Sit/Tortor', news_url: 'Dolor Ullamcorper Tristique Sem Pharetra', description: 'Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-    { id: 9, image_url: 'https://i.ibb.co/KKM7RVt/beautiful-cellphone-cute-761963.jpg', headline: 'Etiam Ornare Dapibus', author: 'Commodo Sit/Tortor', news_url: 'Dolor Ullamcorper Tristique Sem Pharetra', description: 'Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-    { id: 10, image_url: 'https://i.ibb.co/KKM7RVt/beautiful-cellphone-cute-761963.jpg', headline: 'Etiam Ornare Dapibus', author: 'Commodo Sit/Tortor', news_url: 'Dolor Ullamcorper Tristique Sem Pharetra', description: 'Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-    { id: 11, image_url: 'https://i.ibb.co/KKM7RVt/beautiful-cellphone-cute-761963.jpg', headline: 'Etiam Ornare Dapibus', author: 'Commodo Sit/Tortor', news_url: 'Dolor Ullamcorper Tristique Sem Pharetra', description: 'Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-    { id: 12, image_url: 'https://i.ibb.co/KKM7RVt/beautiful-cellphone-cute-761963.jpg', headline: 'Etiam Ornare Dapibus', author: 'Commodo Sit/Tortor', news_url: 'Dolor Ullamcorper Tristique Sem Pharetra', description: 'Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-    { id: 13, image_url: 'https://i.ibb.co/KKM7RVt/beautiful-cellphone-cute-761963.jpg', headline: 'Etiam Ornare Dapibus', author: 'Commodo Sit/Tortor', news_url: 'Dolor Ullamcorper Tristique Sem Pharetra', description: 'Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit.' }
   ];
-
-  constructor(private messageService: MessageService) { }
+  constructor(private messageService: MessageService) {
+    
+   }
 
   ngOnInit() {
-  }
-
-  onSaveConfirm(event): void {
-    // if (event.newData.headline === event.data.headline) {
-    //   return event.confirm.reject(this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No changes in data.' }))
-    // }
-    console.log(event);
-    event.confirm.resolve(this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated Successfully' }));
-  }
-
-  onDeleteConfirm(event): void {
-    event.confirm.resolve(this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Deleted Successfully' }));
-  }
-
-  onCreateConfirm(event) {
-    console.log(event.newData);
-  }
-
-  onEditRow(event) {
-    console.log('Editing');
+    setTimeout(() => {
+      this.loading = false;
+    }, 4000);
   }
 
 }

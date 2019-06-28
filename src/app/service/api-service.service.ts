@@ -14,22 +14,20 @@ export class ApiServiceService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Access-Control-Allow-Origin': '*',
     });
 
-    return this.http.post<any>(this.url + 'api-token-auth', loginData, {
+    return this.http.post<any>(this.url + 'api-token-auth/', loginData, {
       observe: 'response',
       responseType: 'json',
-      headers: headers
+      headers: headers,
+      withCredentials: true
     });
-
   }
 
   listNews() {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Access-Control-Allow-Origin': '*',
     });
 
     return this.http.get<any>(this.url + 'news', {
@@ -39,4 +37,46 @@ export class ApiServiceService {
       withCredentials: true
     });
   }
+
+  updateNews(newsId, newsData) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
+
+    return this.http.patch<any>(`${this.url}news/${newsId}/`, newsData, {
+      observe: 'response',
+      responseType: 'json',
+      headers: headers,
+      withCredentials: true
+    });
+  }
+
+  deleteNews(newsId) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
+
+    return this.http.delete<any>(`${this.url}news/${newsId}/`, {
+      observe: 'response',
+      responseType: 'json',
+      headers: headers,
+      withCredentials: true
+    });
+  }
+
+  addNews(newsData) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
+    return this.http.post<any>(this.url + 'news/', newsData, {
+      observe: 'response',
+      responseType: 'json',
+      headers: headers,
+      withCredentials: true
+    });
+  }
+  
 }

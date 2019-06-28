@@ -1,28 +1,4 @@
-/*
-    DEMO STYLE
-*/
-
-/* @font-face {
-   font-family: Ulm Grotesk;
-   src: url(../../assets/font/UlmGrotesk-Medium.otf);
-}
-
-@font-face {
-   font-family: Ulm Grotesk Regular;
-   src: url(../../assets/font/UlmGrotesk-Regular.otf);
-}
-
-* {
-   font-family: Ulm Grotesk;
-} */
-
-body {
-    /* font-family: Ulm Grotesk; */
-    background: #fafafa;
-}
-
 body .ui-widget {
-    font-family: Ulm Grotesk !important;
     font-size: 14px;
     text-decoration: none;
 }
@@ -30,12 +6,10 @@ body .ui-widget {
 .ui-card-title {
     font-size: 1.5em;
     font-weight: bold;
-    margin-bottom: .5em;
-    font-family: Ulm Grotesk !important;
+    margin-bottom: .5em;  
 }
 
 body .ui-card {
-    font-family: Ulm Grotesk !important;
     background-color: #ffffff;
     color: #333333;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
@@ -96,13 +70,14 @@ a:focus {
     height: 100vh;
     z-index: 999;
     background: #3e4288;
-    background-image: url('../../assets/bgs01.jpg');
+    /* background-image: url(bgs01.jpg); */
     background-blend-mode: multiply;
     color: #fff;
     transition: all 0.3s;
     background-position: right;
     background-repeat: no-repeat;
     background-position: center center;
+    background-image: linear-gradient(to right bottom, #050d37, #1b205a, #36327e, #5346a4, #7359cb);
 }
 
 #sidebar.active {

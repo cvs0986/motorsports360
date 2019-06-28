@@ -3,16 +3,16 @@
   <nav id="sidebar">
     <div class="sidebar-header">
       <!-- <img src="../assets/vserve.png" alt="" class="img-fluid" width="90px"> <br> -->
-      <span style="font-size: 18px; letter-spacing: 3px;">Motorsport</span>
+      <span style="font-size: 18px; letter-spacing: 3px;">Motorsports360</span>
     </div>
 
     <ul class="list-unstyled components">
       <li>
-        <a [routerLink]="['/admin/dashboard']" routerLinkActive="router-link-active"><img src="../assets/hotel.png"
-            class="mr-3" width="30" alt=""> Dashboard</a>
+        <a [routerLink]="['/admin/dashboard']" routerLinkActive="router-link-active"><img src="../assets/dashboard.png"
+            class="mr-3" width="20" alt=""> Dashboard</a>
       </li>
       <li>
-        <a [routerLink]="['/admin/news']" routerLinkActive="router-link-active"><img src="../assets/hotel.png"
+        <a [routerLink]="['/admin/news']" routerLinkActive="router-link-active"><img src="../../assets/news.png"
             class="mr-3" width="30" alt=""> News</a>
       </li>
     </ul>
@@ -25,7 +25,7 @@
   <!-- Page Content  -->
   <div id="content">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
 
         <button type="button" id="sidebarCollapse" class="btn btn-info">
@@ -33,7 +33,7 @@
         </button>
         <h4><img src="../assets/vserve.png" alt="" class="img-fluid" width="50px"></h4>
       </div>
-    </nav>
+    </nav> -->
 
     <router-outlet></router-outlet>
   </div>
