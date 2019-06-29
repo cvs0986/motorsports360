@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit {
           console.log(resp);
           if (resp.status === 200) {
             this.isLoading = false;
+            localStorage.setItem('access_token', resp.body.token);
             this.router.navigate(['/admin/dashboard']);
           }
         },

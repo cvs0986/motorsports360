@@ -7,7 +7,7 @@ import { HttpClient, HttpHeaders, HttpClientModule, HttpClientXsrfModule} from "
 })
 export class ApiServiceService {
   url: string = 'http://35.184.44.50/';
-
+  access_token = localStorage.getItem('access_token');
   constructor(private http: HttpClient) { }
 
   login(loginData) {
@@ -29,6 +29,7 @@ export class ApiServiceService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json',
+      'Authorization': `Token ${this.access_token}`
     });
 
     return this.http.get<any>(this.url + 'news/', {
@@ -42,7 +43,8 @@ export class ApiServiceService {
   updateNews(newsId, newsData) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'Authorization': `Token ${this.access_token}`
     });
 
     return this.http.patch<any>(`${this.url}news/${newsId}/`, newsData, {
@@ -56,7 +58,8 @@ export class ApiServiceService {
   deleteNews(newsId) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'Authorization': `Token ${this.access_token}`
     });
 
     return this.http.delete<any>(`${this.url}news/${newsId}/`, {
@@ -70,7 +73,8 @@ export class ApiServiceService {
   addNews(newsData) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'Authorization': `Token ${this.access_token}`
     });
     return this.http.post<any>(this.url + 'news/', newsData, {
       observe: 'response',
