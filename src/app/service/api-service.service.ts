@@ -114,6 +114,36 @@ export class ApiServiceService {
     });
   }
 
+  updateVideo(id, data) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Token ${this.access_token}`
+    });
+
+    return this.http.patch<any>(`${this.url}videos/${id}/`, data, {
+      observe: 'response',
+      responseType: 'json',
+      headers: headers,
+      withCredentials: true
+    });
+  }
+
+  deleteVideo(id) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Token ${this.access_token}`
+    });
+
+    return this.http.delete<any>(`${this.url}videos/${id}/`, {
+      observe: 'response',
+      responseType: 'json',
+      headers: headers,
+      withCredentials: true
+    });
+  }
+
   listAudios() {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -136,6 +166,36 @@ export class ApiServiceService {
       'Authorization': `Token ${this.access_token}`
     });
     return this.http.post<any>(this.url + 'audios/', data, {
+      observe: 'response',
+      responseType: 'json',
+      headers: headers,
+      withCredentials: true
+    });
+  }
+
+  deleteAudio(id) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Token ${this.access_token}`
+    });
+
+    return this.http.delete<any>(`${this.url}audios/${id}/`, {
+      observe: 'response',
+      responseType: 'json',
+      headers: headers,
+      withCredentials: true
+    });
+  }
+
+  updateAudio(id, data) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Token ${this.access_token}`
+    });
+
+    return this.http.patch<any>(`${this.url}audios/${id}/`, data, {
       observe: 'response',
       responseType: 'json',
       headers: headers,

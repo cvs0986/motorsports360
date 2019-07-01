@@ -129,31 +129,33 @@ export class VidoesComponent implements OnInit {
   }
 
   onSaveConfirm(event): void {
-    // this.api.updateNews(event.newData.id, event.newData).subscribe(
-    //   (resp) => {
-    //     if (resp.status === 200) {
-    //       event.confirm.resolve(this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated Successfully' }));
-    //     }
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //     event.confirm.reject(this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' }));
-    //   }
-    // );
+    this.api.updateVideo(event.newData.id, event.newData).subscribe(
+      (resp) => {
+        console.log(resp);
+        if (resp.status === 200) {
+          event.confirm.resolve(this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated Successfully' }));
+        }
+      },
+      (error) => {
+        console.log(error);
+        event.confirm.reject(this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' }));
+      }
+    );
   }
 
   onDeleteConfirm(event): void {
-    // this.api.deleteNews(event.newData.id).subscribe(
-    //   (resp) => {
-    //     if (resp.status === 204) {
-    //       event.confirm.resolve(this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated Successfully' }));
-    //     }
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //     event.confirm.reject(this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' }));
-    //   }
-    // );
+    this.api.deleteVideo(event.data.id).subscribe(
+      (resp) => {
+        console.log(resp);
+        if (resp.status === 204) {
+          event.confirm.resolve(this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated Successfully' }));
+        }
+      },
+      (error) => {
+        console.log(error);
+        event.confirm.reject(this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' }));
+      }
+    );
   }
 
   onCreateConfirm(event) {
