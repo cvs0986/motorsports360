@@ -1,13 +1,13 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/components/common/api';
 import { ApiServiceService } from 'src/app/service/api-service.service';
 
 @Component({
-  selector: 'app-news',
-  templateUrl: './news.component.html',
-  styleUrls: ['./news.component.css']
+  selector: 'app-vidoes',
+  templateUrl: './vidoes.component.html',
+  styleUrls: ['./vidoes.component.css']
 })
-export class NewsComponent implements OnInit {
+export class VidoesComponent implements OnInit {
   data: any[];
 
   seriesIDs: any[] = [
@@ -16,7 +16,7 @@ export class NewsComponent implements OnInit {
     { id: 21, name: 'MotoGP' },
     { id: 19, name: 'World Rally Championship	' },
     { id: 23, name: 'Supercars' },
-    { id: 22, name: 'World Superbikes'},
+    { id: 22, name: 'World Superbikes' },
     { id: 24, name: 'IndyCar' },
     { id: 25, name: 'Formula E' },
     { id: 26, name: 'World Rally Cross' },
@@ -25,16 +25,15 @@ export class NewsComponent implements OnInit {
     { id: 29, name: 'World of Outlaws Sprintcars' }
   ];
 
-  newsHeadline;
+  videoHeadline;
   headlineTitle = 'Enter News Headline';
   descriptionTitle = 'Enter News Description'
-  newsImgUrl;
-  newsUrl;
-  newsSeriesID = null;
-  newsTime;
-  newsDate;
-  newsAuthor;
-  newsDescription;
+  videoUrl;
+  seriesID = null;
+  videoTime;
+  videoDate;
+  videoDescription;
+  videoImageUrl;
 
   showAddNewsForm = false;
   isLoadingTwo = false;
@@ -58,34 +57,39 @@ export class NewsComponent implements OnInit {
         title: 'Headline',
         editor: {
           type: 'textarea'
-        },
-        width: '15%'
+        }
       },
-      author: {
-        title: 'Author/Series',
+      series_id: {
+        title: 'Series',
         editable: false
       },
-      news_url: {
-        title: 'News_Url',
+      url: {
+        title: 'Video Url',
         editable: false,
         type: 'html',
-        valuePrepareFunction: (value) => { return `<a href="${value}" target="_blank">News_Link</a>` },
+        valuePrepareFunction: (value) => { return `<a href="${value}" target="_blank">Video_Link</a>` },
         filter: false
       },
       description: {
         title: 'Description',
         editor: {
           type: 'textarea'
-        },
-        width: '40%'
+        }
       },
-      series_id: {
-        title: 'Series',
-        editable: false
+      date: {
+        title: 'Date',
+        editable: false,
+        width: '9%'
+      },
+      time: {
+        title: 'Time',
+        editable: false,
+        width: '9%'
       }
     },
     add: {
-      addButtonContent: 'Add'
+      addButtonContent: 'Add',
+      confirmCreate: true
     },
     edit: {
       editButtonContent: '<img src="../../../assets/edit.png" width="20"/>',
@@ -109,14 +113,12 @@ export class NewsComponent implements OnInit {
     hideSubHeader: true
   };
 
-  constructor(private messageService: MessageService, private api: ApiServiceService) { 
-  }
+  constructor(private messageService: MessageService, private api: ApiServiceService) { }
 
   ngOnInit() {
-    this.api.listNews().subscribe(
+    this.api.listVidoes().subscribe(
       (resp) => {
         if (resp.status === 200) {
-          console.log(resp);
           this.data = resp.body.results;
         }
       },
@@ -127,34 +129,34 @@ export class NewsComponent implements OnInit {
   }
 
   onSaveConfirm(event): void {
-    this.api.updateNews(event.newData.id, event.newData).subscribe(
-      (resp) => {
-        if (resp.status === 200) {
-          event.confirm.resolve(this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated Successfully' }));
-        }
-      },
-      (error) => {
-        console.log(error);
-        event.confirm.reject(this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' }));
-      }
-    );
+    // this.api.updateNews(event.newData.id, event.newData).subscribe(
+    //   (resp) => {
+    //     if (resp.status === 200) {
+    //       event.confirm.resolve(this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated Successfully' }));
+    //     }
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //     event.confirm.reject(this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' }));
+    //   }
+    // );
   }
 
   onDeleteConfirm(event): void {
-    console.log(event)
-    this.api.deleteNews(event.data.id).subscribe(
-      (resp) => {
-        console.log(resp);
-        if (resp.status === 204) {
-          console.log(resp);
-          event.confirm.resolve(this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated Successfully' }));
-        }
-      },
-      (error) => {
-        console.log(error);
-        event.confirm.reject(this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' }));
-      }
-    );
+    // this.api.deleteNews(event.newData.id).subscribe(
+    //   (resp) => {
+    //     if (resp.status === 204) {
+    //       event.confirm.resolve(this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated Successfully' }));
+    //     }
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //     event.confirm.reject(this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' }));
+    //   }
+    // );
+  }
+
+  onCreateConfirm(event) {
   }
 
   onEditRow(event) {
@@ -170,21 +172,21 @@ export class NewsComponent implements OnInit {
   }
 
   updateDescValue(value: string): void {
-    this.newsDescription = value;
+    this.videoDescription = value;
     this.updateDesc();
   }
 
   updateValue(value: string): void {
-    this.newsHeadline = value;
+    this.videoHeadline = value;
     this.updateTitle();
   }
 
   updateDesc(): void {
-    this.descriptionTitle = this.newsDescription;
+    this.descriptionTitle = this.videoDescription;
   }
 
   updateTitle(): void {
-    this.headlineTitle = this.newsHeadline;
+    this.headlineTitle = this.videoHeadline;
   }
 
   addBtnClicked() {
@@ -192,38 +194,26 @@ export class NewsComponent implements OnInit {
     this.showAddNewsForm = true;
   }
 
-  publishNews(): void {
-    const newsData = {
-      headline: this.newsHeadline,
-      description: this.newsDescription,
-      author: this.newsAuthor,
-      news_date: this.newsDate,
-      news_time: this.newsTime,
-      image_url: this.newsImgUrl,
-      news_url: this.newsUrl,
-      series_id: this.newsSeriesID
+  publishVideo(): void {
+    const data = {
+      headline: this.videoHeadline,
+      date: this.videoDate,
+      time: this.videoTime,
+      url: this.videoUrl,
+      series_id: this.seriesID,
+      image_url: this.videoImageUrl,
+      description: this.videoDescription
     }
     this.isLoadingTwo = true;
-    console.log(newsData);
-    this.api.addNews(newsData).subscribe(
+    console.log(data);
+    this.api.addVideo(data).subscribe(
       (resp) => {
         console.log(resp);
         if (resp.status === 201) {
-          this.api.listNews().subscribe(
-            (resp) => {
-              if (resp.status === 200) {
-                console.log(resp);
-                this.data = resp.body.results;
-                this.isLoadingTwo = false;
-                this.addBtn = true;
-                this.showAddNewsForm = false;
-                this.messageService.add({ severity: 'success', summary: 'Congratulations', detail: 'News published successfully!' });
-              }
-            },
-            (error) => {
-              console.log(error);
-            }
-          );
+          this.isLoadingTwo = false;
+          this.addBtn = true;
+          this.showAddNewsForm = false;
+          this.messageService.add({ severity: 'success', summary: 'Congratulations', detail: 'Video published successfully!' });
         }
       },
       (error) => {

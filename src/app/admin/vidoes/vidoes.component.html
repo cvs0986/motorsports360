@@ -1,0 +1,78 @@
+<p-toast></p-toast>
+<div class="row">
+  <h4 class="mb-5"><img src="../../../assets/play-button.png" width="40" alt="motorsports_news"> Motorsports360 Videos</h4>
+</div>
+<div class="row mb-3" [hidden]="addBtn === false">
+  <button nz-button nzType="primary" (click)="addBtnClicked()" nzShape="round"><i nz-icon nzType="plus"></i> Add
+    Video</button>
+</div>
+
+<div class="addNewsForm mb-5" [hidden]="showAddNewsForm === false">
+  <div class="row">
+    <div class="col-md-12">
+      <h5>Please enter all the information before publish. <small class="text-muted">( *all fields are mandatory !
+          )</small> </h5>
+      <hr class="mb-4">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <nz-tooltip nzTrigger="focus" nzPlacement="bottom" [nzTitle]="headlineTitle">
+        <label for="">HEADLINE</label>
+        <input nz-input nz-tooltip placeholder="Headline" style="width: 100%" [(ngModel)]="videoHeadline"
+          (ngModelChange)="onHeadlineChange($event)" />
+      </nz-tooltip>
+    </div>
+    <div class="col-md-4">
+      <label>URL</label>
+      <input nz-input nz-tooltip placeholder="url" style="width: 100%" [(ngModel)]="videoUrl" />
+    </div>
+    <div class="col-md-4">
+      <label>Image URL</label>
+      <input nz-input nz-tooltip placeholder="url" style="width: 100%" [(ngModel)]="videoImageUrl" />
+    </div>
+  </div>
+
+   <div class="row my-3">
+    <div class="col-md-2">
+      <label>DATE</label>
+      <nz-date-picker style="width: 100%;" [(ngModel)]="videoDate"></nz-date-picker>
+    </div>
+    <div class="col-md-3">
+      <label>TIME</label>
+      <nz-time-picker style="width: 100%;" [(ngModel)]="videoTime" [nzUse12Hours]="true" nzFormat="h:mm a"></nz-time-picker>
+    </div>
+    <div class="col-md-3">
+      <label>SERIES</label>
+      <nz-select style="width: 100%;" nzShowSearch nzAllowClear nzPlaceHolder="Select a series"
+        [(ngModel)]="seriesID">
+        <nz-option *ngFor="let series of seriesIDs" [nzLabel]="series.name" [nzValue]="series.id"></nz-option>
+      </nz-select>
+    </div>
+  </div>
+ <div class="row">
+    <div class="col-md-10">
+      <nz-tooltip nzTrigger="focus" nzPlacement="bottom" [nzTitle]="descriptionTitle">
+        <label for="">DESCRIPTION</label>
+        <textarea rows="3" nz-input nz-tooltip placeholder="Description" style="width: 100%"
+          [(ngModel)]="videoDescription" (ngModelChange)="onDescriptionChange($event)"></textarea>
+      </nz-tooltip>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-6">
+      <button nz-button nzType="dashed" (click)="addNewsCancel()" class="mr-3">Cancel</button>
+      <button nz-button nzType="primary" (click)="publishVideo()" [nzLoading]="isLoadingTwo">
+        <i nz-icon type="plus"></i>Publish
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <ng2-smart-table class="table table-responsive" (deleteConfirm)="onDeleteConfirm($event)" (edit)="onEditRow($event)"
+    (editConfirm)="onSaveConfirm($event)" [settings]="settings"
+    [source]="data">
+  </ng2-smart-table>
+</div>

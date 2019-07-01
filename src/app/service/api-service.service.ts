@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { HttpClient, HttpHeaders, HttpClientModule, HttpClientXsrfModule} from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpClientModule} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +8,7 @@ import { HttpClient, HttpHeaders, HttpClientModule, HttpClientXsrfModule} from "
 export class ApiServiceService {
   url: string = 'http://35.184.44.50/';
   access_token = localStorage.getItem('access_token');
+  
   constructor(private http: HttpClient) { }
 
   login(loginData) {
@@ -77,6 +78,64 @@ export class ApiServiceService {
       'Authorization': `Token ${this.access_token}`
     });
     return this.http.post<any>(this.url + 'news/', newsData, {
+      observe: 'response',
+      responseType: 'json',
+      headers: headers,
+      withCredentials: true
+    });
+  }
+
+  listVidoes() {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Token ${this.access_token}`
+    });
+
+    return this.http.get<any>(this.url + 'videos', {
+      observe: 'response',
+      responseType: 'json',
+      headers: headers,
+      withCredentials: true
+    });
+  }
+
+  addVideo(data) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Token ${this.access_token}`
+    });
+    return this.http.post<any>(this.url + 'videos/', data, {
+      observe: 'response',
+      responseType: 'json',
+      headers: headers,
+      withCredentials: true
+    });
+  }
+
+  listAudios() {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Token ${this.access_token}`
+    });
+
+    return this.http.get<any>(this.url + 'audios', {
+      observe: 'response',
+      responseType: 'json',
+      headers: headers,
+      withCredentials: true
+    });
+  }
+
+  addAudio(data) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Token ${this.access_token}`
+    });
+    return this.http.post<any>(this.url + 'audios/', data, {
       observe: 'response',
       responseType: 'json',
       headers: headers,

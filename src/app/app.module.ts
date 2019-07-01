@@ -2,9 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
-import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from "@angular/forms";
-import { HttpClientModule, HttpClientXsrfModule } from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
+import { AppRoutingModule } from './app-routing.module';
 
 // Prime NG
 import { ToastModule } from "primeng/toast";
@@ -27,6 +27,9 @@ import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { AdminComponent } from './admin/admin.component';
 import { NewsComponent } from './admin/news/news.component';
 import { ApiServiceService } from './service/api-service.service';
+import { SeriesComponent } from './admin/series/series.component';
+import { VidoesComponent } from './admin/vidoes/vidoes.component';
+import { AudiosComponent } from './admin/audios/audios.component';
 
 @NgModule({
   declarations: [
@@ -34,17 +37,16 @@ import { ApiServiceService } from './service/api-service.service';
     LoginComponent,
     DashboardComponent,
     AdminComponent,
-    NewsComponent
+    NewsComponent,
+    SeriesComponent,
+    VidoesComponent,
+    AudiosComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientXsrfModule.withOptions({
-      cookieName: 'csrftoken',
-      headerName: 'X-CSRF-TOKEN'
-    }),
     HttpClientModule,
     ToastModule,
     MessagesModule,
@@ -56,7 +58,7 @@ import { ApiServiceService } from './service/api-service.service';
     CalendarModule,
     NgZorroAntdModule
   ],
-  providers: [MessageService, ApiServiceService, {provide: NZ_I18N, useValue: en_US}],
+  providers: [ApiServiceService, MessageService, HttpClientModule, {provide: NZ_I18N, useValue: en_US}],
   bootstrap: [AppComponent]
 })
 
