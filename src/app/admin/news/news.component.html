@@ -73,7 +73,11 @@
   </div>
 </div>
 
-
+<!-- <div class="row mb-2">
+  <nz-select style="width: 20%" nzShowSearch nzPlaceHolder="" [(ngModel)]="rowCount">
+    <nz-option *ngFor="let number of dataRow" [nzLabel]="number.rowCounts" [nzValue]="number.rowCounts"></nz-option>
+  </nz-select>
+</div> -->
 <div class="row">
   <ng2-smart-table class="table table-responsive" (deleteConfirm)="onDeleteConfirm($event)" (edit)="onEditRow($event)"
     (editConfirm)="onSaveConfirm($event)" [settings]="settings" [source]="data">

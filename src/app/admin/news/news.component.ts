@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MessageService } from 'primeng/components/common/api';
 import { ApiServiceService } from 'src/app/service/api-service.service';
+import { NzModalService } from 'ng-zorro-antd';
+import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
   selector: 'app-news',
@@ -9,6 +11,9 @@ import { ApiServiceService } from 'src/app/service/api-service.service';
 })
 export class NewsComponent implements OnInit {
   data: any[];
+
+  dataRow: any[] = [{ rowCounts: 10 }, { rowCounts: 20 }, { rowCounts: 50 }, { rowCounts: 100 }];
+  rowCount = 10;
 
   seriesIDs: any[] = [
     { id: 18, name: 'Formula1' },
@@ -46,7 +51,9 @@ export class NewsComponent implements OnInit {
       id: {
         title: 'S.No.',
         editable: false,
-        filter: false
+        filter: false,
+        sortDirection: 'desc',
+        width: '8%'
       },
       image_url: {
         title: 'Image',
@@ -62,7 +69,11 @@ export class NewsComponent implements OnInit {
         width: '15%'
       },
       author: {
-        title: 'Author/Series',
+        title: 'Author',
+        editable: false
+      },
+      series_id: {
+        title: 'Series',
         editable: false
       },
       news_url: {
@@ -78,24 +89,20 @@ export class NewsComponent implements OnInit {
           type: 'textarea'
         },
         width: '40%'
-      },
-      series_id: {
-        title: 'Series',
-        editable: false
       }
     },
     add: {
       addButtonContent: 'Add'
     },
     edit: {
-      editButtonContent: '<img src="../../../assets/edit.png" width="20"/>',
-      saveButtonContent: '<img src="../../../assets/check-mark.png" width="22"/>',
+      editButtonContent: '<img src="../../../assets/edit.png" class="mr-2" width="20"/>',
+      saveButtonContent: '<img src="../../../assets/check-mark.png" class="mr-2" width="22"/>',
       cancelButtonContent: '<img src="../../../assets/close-cross.png" width="22"/>',
       confirmCreate: true,
       confirmSave: true,
     },
     delete: {
-      deleteButtonContent: '<img src="../../../assets/delete.png" width="20"/>',
+      deleteButtonContent: '<img src="../../../assets/delete.png" (click)="showConfirm()" width="20"/>',
       confirmDelete: true
     },
     actions: {
@@ -109,10 +116,7 @@ export class NewsComponent implements OnInit {
     hideSubHeader: true
   };
 
-  constructor(private messageService: MessageService, private api: ApiServiceService) { 
-  }
-
-  ngOnInit() {
+  constructor(private messageService: MessageService, private api: ApiServiceService, private modalService: NzModalService) { 
     this.api.listNews().subscribe(
       (resp) => {
         if (resp.status === 200) {
@@ -124,6 +128,10 @@ export class NewsComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  ngOnInit() {
+    
   }
 
   onSaveConfirm(event): void {
@@ -140,21 +148,34 @@ export class NewsComponent implements OnInit {
     );
   }
 
-  onDeleteConfirm(event): void {
-    console.log(event)
-    this.api.deleteNews(event.data.id).subscribe(
-      (resp) => {
-        console.log(resp);
-        if (resp.status === 204) {
-          console.log(resp);
-          event.confirm.resolve(this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated Successfully' }));
-        }
-      },
-      (error) => {
-        console.log(error);
-        event.confirm.reject(this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' }));
+  showConfirm(event): void {
+    this.modalService.confirm({
+      nzTitle: 'Confirm',
+      nzContent: 'Do you really want to delete?',
+      nzOkText: 'OK',
+      nzCancelText: 'Cancel',
+      nzOkLoading: false,
+      nzOnOk: () => {
+        this.api.deleteNews(event.data.id).subscribe(
+          (resp) => {
+            console.log(resp);
+            if (resp.status === 204) {
+              console.log(resp);
+              event.confirm.resolve(this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated Successfully' }));
+            }
+          },
+          (error) => {
+            console.log(error);
+            event.confirm.reject(this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' }));
+          }
+        );
       }
-    );
+    });
+  }
+
+  onDeleteConfirm(event): void {
+    console.log(event);
+    this.showConfirm(event);
   }
 
   onEditRow(event) {

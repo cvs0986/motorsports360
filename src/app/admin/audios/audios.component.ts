@@ -45,7 +45,9 @@ export class AudiosComponent implements OnInit {
       id: {
         title: 'S.No.',
         editable: false,
-        filter: false
+        filter: false,
+        sortDirection: 'desc',
+        width: '8%'
       },
       image_url: {
         title: 'Image',
