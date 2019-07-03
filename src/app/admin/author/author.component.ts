@@ -1,24 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { MessageService } from 'primeng/components/common/api';
-import { ApiServiceService } from 'src/app/service/api-service.service';
-import { NzMessageService, UploadFile, NzModalService } from 'ng-zorro-antd';
 import { Observable, Observer } from 'rxjs';
 
-@Component({
-  selector: 'app-series',
-  templateUrl: './series.component.html',
-  styleUrls: ['./series.component.css']
-})
-export class SeriesComponent implements OnInit {
-  data: any[];
+import { MessageService } from 'primeng/components/common/api';
+import { ApiServiceService } from 'src/app/service/api-service.service';
+import { NzMessageService, NzModalService, UploadFile } from 'ng-zorro-antd';
 
+@Component({
+  selector: 'app-author',
+  templateUrl: './author.component.html',
+  styleUrls: ['./author.component.css']
+})
+export class AuthorComponent implements OnInit {
+  data: any[];
   isVisible = false;
+
   loading = false;
   avatarUrl: string;
   avatarFile;
   avatarFileName;
 
   name;
+  url;
   image_url;
   authorID;
 
@@ -30,13 +32,12 @@ export class SeriesComponent implements OnInit {
   settings = {
     columns: {
       id: {
-        title: 'S.No.',
-        sortDirection: 'desc',
+        title: 'S.No.'
       },
       image_url: {
         title: 'Image',
         type: 'html',
-        valuePrepareFunction: (value) => { return `<img src="${value}" width="80" style="border-radius: 22px;" />` },
+        valuePrepareFunction: (value) => { return `<img src="${value}" width="80" style="border-radius: 5px;" />` },
       },
       name: {
         title: 'Name'
@@ -69,6 +70,17 @@ export class SeriesComponent implements OnInit {
     mode: 'external'
   };
 
+  // beforeUpload = (file: File) => {
+  //   return new Observable((observer: Observer<boolean>) => {
+  //     const isJPG = file.type === 'image/jpeg';
+  //     if (!isJPG) {
+  //       this.msg.error('You can only upload JPG file!');
+  //       observer.complete();
+  //       return;
+  //     }
+  //   });
+  // };
+
   private getBase64(img: File, callback: (img: string) => void): void {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result!.toString()));
@@ -85,8 +97,9 @@ export class SeriesComponent implements OnInit {
     });
   }
 
+
   constructor(private messageService: MessageService, private api: ApiServiceService, private msg: NzMessageService, private modalService: NzModalService) {
-    this.api.listSeries().subscribe(
+    this.api.listAuthor().subscribe(
       (resp) => {
         if (resp.status === 200) {
           console.log(resp);
@@ -100,7 +113,6 @@ export class SeriesComponent implements OnInit {
    }
 
   ngOnInit() {
-    
   }
 
   showConfirm(event): void {
@@ -111,22 +123,23 @@ export class SeriesComponent implements OnInit {
       nzCancelText: 'Cancel',
       nzOkLoading: false,
       nzOnOk: () => {
-        this.api.deleteSeries(event.data.id).subscribe(
+        this.api.deleteAuthor(event.data.id).subscribe(
           (resp) => {
             console.log(resp);
             if (resp.status === 204) {
-              this.api.listSeries().subscribe(
+              this.api.listAuthor().subscribe(
                 (resp) => {
                   if (resp.status === 200) {
                     console.log(resp);
-                    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Deleted Successfully' });
                     this.data = resp.body.results;
+                    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Deleted Successfully' });
                   }
                 },
                 (error) => {
                   console.log(error);
                 }
               );
+              console.log(resp);
             }
           },
           (error) => {
@@ -138,7 +151,8 @@ export class SeriesComponent implements OnInit {
     });
   }
 
-  seriesDelete(event) {
+
+  authorDelete(event) {
     this.showConfirm(event);
   }
 
@@ -153,7 +167,7 @@ export class SeriesComponent implements OnInit {
       image_url: this.avatarUrl
     }
     console.log(data);
-    this.api.updateSeries(this.authorID, data).subscribe(
+    this.api.updateAuthor(this.authorID, data).subscribe(
       (resp) => {
         console.log(resp);
         if (resp.status === 200) {
@@ -187,14 +201,23 @@ export class SeriesComponent implements OnInit {
     this.showAddSeriesForm = true;
   }
 
-  publishSeries(): void {
+  dataURLtoFile(dataurl, filename) {
+    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
+  }
+
+  publishAuthor(): void {
     const data = {
       name: this.name,
-      image_url: this.avatarFile
+      image_url: this.dataURLtoFile(this.avatarUrl, this.avatarFileName)
     }
     this.isLoadingTwo = true;
     console.log(data);
-    this.api.addSeries(data).subscribe(
+    this.api.addAuthor(data).subscribe(
       (resp) => {
         console.log(resp);
         if (resp.status === 201) {
@@ -216,7 +239,8 @@ export class SeriesComponent implements OnInit {
     this.addBtn = true;
     this.showAddSeriesForm = false;
     this.name = '';
-    this.avatarUrl = ''
+    this.avatarUrl = '';
+    this.avatarFileName = '';
   }
 
 }

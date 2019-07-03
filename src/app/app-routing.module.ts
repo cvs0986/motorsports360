@@ -7,6 +7,7 @@ import { NewsComponent } from './admin/news/news.component';
 import { SeriesComponent } from './admin/series/series.component';
 import { VidoesComponent } from './admin/vidoes/vidoes.component';
 import { AudiosComponent } from './admin/audios/audios.component';
+import { AuthorComponent } from './admin/author/author.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full'},
@@ -18,7 +19,8 @@ const routes: Routes = [
     { path: 'news', component: NewsComponent},
     { path: 'series', component: SeriesComponent},
     { path: 'vidoes', component: VidoesComponent},
-    { path: 'audios', component: AudiosComponent}
+    { path: 'audios', component: AudiosComponent},
+    { path: 'author', component: AuthorComponent}
   ]}
 ];
 

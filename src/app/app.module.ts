@@ -30,6 +30,7 @@ import { ApiServiceService } from './service/api-service.service';
 import { SeriesComponent } from './admin/series/series.component';
 import { VidoesComponent } from './admin/vidoes/vidoes.component';
 import { AudiosComponent } from './admin/audios/audios.component';
+import { AuthorComponent } from './admin/author/author.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { AudiosComponent } from './admin/audios/audios.component';
     NewsComponent,
     SeriesComponent,
     VidoesComponent,
-    AudiosComponent
+    AudiosComponent,
+    AuthorComponent
   ],
   imports: [
     BrowserModule,

@@ -23,7 +23,10 @@
     </div>
     <div class="col-md-3">
       <label>AUTHOR</label>
-      <input nz-input nz-tooltip placeholder="Author" style="width: 100%" [(ngModel)]="newsAuthor" />
+      <!-- <input nz-input nz-tooltip placeholder="Author" style="width: 100%" [(ngModel)]="newsAuthor" /> -->
+      <nz-select style="width: 100%;" nzShowSearch nzAllowClear nzPlaceHolder="Select author" [(ngModel)]="newsAuthor">
+        <nz-option *ngFor="let author of authorsIDs" [nzLabel]="author.name" [nzValue]="author.id"></nz-option>
+      </nz-select>
     </div>
     <div class="col-md-2"> 
       <label>NEWS DATE</label>

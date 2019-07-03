@@ -15,20 +15,8 @@ export class NewsComponent implements OnInit {
   dataRow: any[] = [{ rowCounts: 10 }, { rowCounts: 20 }, { rowCounts: 50 }, { rowCounts: 100 }];
   rowCount = 10;
 
-  seriesIDs: any[] = [
-    { id: 18, name: 'Formula1' },
-    { id: 20, name: 'NASCAR' },
-    { id: 21, name: 'MotoGP' },
-    { id: 19, name: 'World Rally Championship	' },
-    { id: 23, name: 'Supercars' },
-    { id: 22, name: 'World Superbikes'},
-    { id: 24, name: 'IndyCar' },
-    { id: 25, name: 'Formula E' },
-    { id: 26, name: 'World Rally Cross' },
-    { id: 27, name: 'World Touring Car Cup' },
-    { id: 28, name: 'Drag Racing' },
-    { id: 29, name: 'World of Outlaws Sprintcars' }
-  ];
+  seriesIDs: any[];
+  authorsIDs: any[];
 
   newsHeadline;
   headlineTitle = 'Enter News Headline';
@@ -128,6 +116,31 @@ export class NewsComponent implements OnInit {
         console.log(error);
       }
     );
+
+    this.api.listSeries().subscribe(
+      (resp) => {
+        if (resp.status === 200) {
+          console.log(resp);
+          this.seriesIDs = resp.body.results;
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    this.api.listAuthor().subscribe(
+      (resp) => {
+        if (resp.status === 200) {
+          console.log(resp);
+          this.authorsIDs = resp.body.results;
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
   }
 
   ngOnInit() {

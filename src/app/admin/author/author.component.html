@@ -1,30 +1,30 @@
 <p-toast></p-toast>
 <div class="row">
-  <h4 class="mb-5"><img src="../../../assets/series_logo.png" width="40" alt="motorsports"> Motorsports360 Series</h4>
+  <h4 class="mb-5"><img src="../../../assets/author.png" width="40" alt="motorsports"> Motorsports360 Author</h4>
 </div>
 <div class="row mb-3" [hidden]="addBtn === false">
   <button nz-button nzType="primary" (click)="addBtnClicked()" nzShape="round"><i nz-icon nzType="plus"></i> Add
-    Series</button>
+    Author</button>
 </div>
 
 <div class="addNewsForm mb-5" [hidden]="showAddSeriesForm === false">
   <div class="row">
     <div class="col-md-12">
-      <h5>Please enter all the information before publish. <small class="text-muted">( *all fields are mandatory !)</small> </h5>
+      <h5>Please enter all the information before publish. <small class="text-muted">( *all fields are mandatory
+          !)</small> </h5>
       <hr class="mb-4">
     </div>
   </div>
   <div class="row">
     <div class="col-md-12">
-        <label for="">NAME</label>
-        <input nz-input nz-tooltip placeholder="Name" style="width: 100%" [(ngModel)]="name" />
+      <label for="">NAME</label>
+      <input nz-input nz-tooltip placeholder="Name" style="width: 100%" [(ngModel)]="name" />
     </div>
   </div>
 
   <div class="row mt-3">
     <div class="col-md-6">
-      <nz-upload class="avatar-uploader" nzName="avatar"
-        nzListType="picture-card" [nzShowUploadList]="false"
+      <nz-upload class="avatar-uploader" nzName="avatar" nzListType="picture-card" [nzShowUploadList]="false"
         (nzChange)="handleChange($event)">
         <ng-container *ngIf="!avatarUrl">
           <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
@@ -38,7 +38,7 @@
   <div class="row mt-3">
     <div class="col-md-6">
       <button nz-button nzType="dashed" (click)="addNewsCancel()" class="mr-3">Cancel</button>
-      <button nz-button nzType="primary" (click)="publishSeries()" [nzLoading]="isLoadingTwo">
+      <button nz-button nzType="primary" (click)="publishAuthor()" [nzLoading]="isLoadingTwo">
         <i nz-icon type="plus"></i>Publish
       </button>
     </div>
@@ -47,8 +47,8 @@
 
 
 <div class="row">
-  <ng2-smart-table class="table table-responsive" (deleteConfirm)="onDeleteConfirm($event)" (delete)="seriesDelete($event)" (edit)="onEditRow($event)"
-    (editConfirm)="onSaveConfirm($event)" (createConfirm)="onCreateConfirm($event)" [settings]="settings"
+  <ng2-smart-table class="table table-responsive" (deleteConfirm)="onDeleteConfirm($event)" (delete)="authorDelete($event)" (edit)="onEditRow($event)"
+    (editConfirm)="onSaveConfirm($event)" (edit)="onEditRow($event)" (createConfirm)="onCreateConfirm($event)" [settings]="settings"
     [source]="data">
   </ng2-smart-table>
 </div>

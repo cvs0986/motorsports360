@@ -202,5 +202,124 @@ export class ApiServiceService {
       withCredentials: true
     });
   }
+
+  listSeries() {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Token ${this.access_token}`
+    });
+
+    return this.http.get<any>(this.url + 'series/', {
+      observe: 'response',
+      responseType: 'json',
+      headers: headers,
+      withCredentials: true
+    });
+  }
+
+  addSeries(data) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Token ${this.access_token}`
+    });
+    return this.http.post<any>(this.url + 'series/', data, {
+      observe: 'response',
+      responseType: 'json',
+      headers: headers,
+      withCredentials: true
+    });
+  }
+
+  updateSeries(id, data) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Token ${this.access_token}`
+    });
+
+    return this.http.patch<any>(`${this.url}series/${id}/`, data, {
+      observe: 'response',
+      responseType: 'json',
+      headers: headers,
+      withCredentials: true
+    });
+  }
+
+  deleteSeries(id) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Token ${this.access_token}`
+    });
+
+    return this.http.delete<any>(`${this.url}series/${id}/`, {
+      observe: 'response',
+      responseType: 'json',
+      headers: headers,
+      withCredentials: true
+    });
+  }
+
+  listAuthor() {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Token ${this.access_token}`
+    });
+
+    return this.http.get<any>(this.url + 'author/', {
+      observe: 'response',
+      responseType: 'json',
+      headers: headers,
+      withCredentials: true
+    });
+  }
+
+  addAuthor(data) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Token ${this.access_token}`
+    });
+    return this.http.post<any>(this.url + 'author/', data, {
+      observe: 'response',
+      responseType: 'json',
+      headers: headers,
+      withCredentials: true
+    });
+  }
+
+  updateAuthor(id, data) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Token ${this.access_token}`
+    });
+
+    return this.http.patch<any>(`${this.url}author/${id}/`, data, {
+      observe: 'response',
+      responseType: 'json',
+      headers: headers,
+      withCredentials: true
+    });
+  }
+
+  deleteAuthor(id) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Token ${this.access_token}`
+    });
+
+    return this.http.delete<any>(`${this.url}author/${id}/`, {
+      observe: 'response',
+      responseType: 'json',
+      headers: headers,
+      withCredentials: true
+    });
+  }
+
   
 }
