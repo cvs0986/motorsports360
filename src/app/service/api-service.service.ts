@@ -220,8 +220,6 @@ export class ApiServiceService {
 
   addSeries(data) {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
       'Authorization': `Token ${this.access_token}`
     });
     return this.http.post<any>(this.url + 'series/', data, {
@@ -234,8 +232,6 @@ export class ApiServiceService {
 
   updateSeries(id, data) {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
       'Authorization': `Token ${this.access_token}`
     });
 
@@ -279,8 +275,6 @@ export class ApiServiceService {
 
   addAuthor(data) {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
       'Authorization': `Token ${this.access_token}`
     });
     return this.http.post<any>(this.url + 'author/', data, {
@@ -293,8 +287,6 @@ export class ApiServiceService {
 
   updateAuthor(id, data) {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
       'Authorization': `Token ${this.access_token}`
     });
 

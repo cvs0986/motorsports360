@@ -32,7 +32,8 @@ export class AuthorComponent implements OnInit {
   settings = {
     columns: {
       id: {
-        title: 'S.No.'
+        title: 'S.No.',
+        sortDirection: 'desc',
       },
       image_url: {
         title: 'Image',
@@ -63,11 +64,12 @@ export class AuthorComponent implements OnInit {
     },
     pager: {
       display: true,
-      perPage: 10
+      perPage: 15
     },
     hideSubHeader: true,
     mode: 'external'
   };
+  
 
   // beforeUpload = (file: File) => {
   //   return new Observable((observer: Observer<boolean>) => {
@@ -90,9 +92,10 @@ export class AuthorComponent implements OnInit {
     this.getBase64(info.file!.originFileObj!, (img: string) => {
       this.loading = false;
       this.avatarUrl = img;
-      this.avatarFile = info.file!;
+      this.avatarFile = info.file!.originFileObj!;
+
       this.avatarFileName = info.file!.name;
-      console.log(info.file!);
+      console.log(this.avatarFile);
     });
   }
 
@@ -124,7 +127,6 @@ export class AuthorComponent implements OnInit {
       nzOnOk: () => {
         this.api.deleteAuthor(event.data.id).subscribe(
           (resp) => {
-            console.log(resp);
             if (resp.status === 204) {
               this.api.listAuthor().subscribe(
                 (resp) => {
@@ -138,7 +140,6 @@ export class AuthorComponent implements OnInit {
                   console.log(error);
                 }
               );
-              console.log(resp);
             }
           },
           (error) => {
@@ -160,19 +161,29 @@ export class AuthorComponent implements OnInit {
   }
 
   handleOk(): void {
-    const data = {
-      id: this.authorID,
-      name: this.name,
-      image_url: this.avatarUrl
-    }
-    console.log(data);
-    this.api.updateAuthor(this.authorID, data).subscribe(
+    let formData = new FormData();
+    formData.append('image_url', this.avatarFile);
+    formData.append('name', this.name);
+    formData.append('id', this.authorID);
+
+    this.api.updateAuthor(this.authorID, formData).subscribe(
       (resp) => {
         console.log(resp);
         if (resp.status === 200) {
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated Successfully' });
-          this.addNewsCancel();
-          this.handleCancel();
+          this.api.listAuthor().subscribe(
+            (resp) => {
+              if (resp.status === 200) {
+                console.log(resp);
+                this.data = resp.body.results;
+                this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated Successfully' });
+                this.addNewsCancel();
+                this.handleCancel();
+              }
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
         }
       },
       (error) => {
@@ -200,30 +211,31 @@ export class AuthorComponent implements OnInit {
     this.showAddSeriesForm = true;
   }
 
-  dataURLtoFile(dataurl, filename) {
-    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-      bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], filename, { type: mime });
-  }
-
   publishAuthor(): void {
-    const data = {
-      name: this.name,
-      image_url: this.dataURLtoFile(this.avatarUrl, this.avatarFileName)
-    }
+    let formData = new FormData();
+    formData.append('image_url', this.avatarFile);
+    formData.append('name', this.name);
+    
     this.isLoadingTwo = true;
-    console.log(data);
-    this.api.addAuthor(data).subscribe(
+    this.api.addAuthor(formData).subscribe(
       (resp) => {
         console.log(resp);
         if (resp.status === 201) {
-          this.isLoadingTwo = false;
-          this.addBtn = true;
-          this.showAddSeriesForm = false;
-          this.messageService.add({ severity: 'success', summary: 'Congratulations', detail: 'Series added successfully!' });
+          this.api.listAuthor().subscribe(
+            (resp) => {
+              if (resp.status === 200) {
+                console.log(resp);
+                this.data = resp.body.results;
+                this.isLoadingTwo = false;
+                this.addBtn = true;
+                this.showAddSeriesForm = false;
+                this.messageService.add({ severity: 'success', summary: 'Congratulations', detail: 'Series added successfully!' });
+              }
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
         }
       },
       (error) => {

@@ -62,7 +62,7 @@ export class SeriesComponent implements OnInit {
     },
     pager: {
       display: true,
-      perPage: 10
+      perPage: 15
     },
     hideSubHeader: true,
     mode: 'external'
@@ -78,7 +78,7 @@ export class SeriesComponent implements OnInit {
     this.getBase64(info.file!.originFileObj!, (img: string) => {
       this.loading = false;
       this.avatarUrl = img;
-      this.avatarFile = info.file!;
+      this.avatarFile = info.file!.originFileObj!;
       this.avatarFileName = info.file!.name;
       console.log(info.file!);
     });
@@ -146,19 +146,28 @@ export class SeriesComponent implements OnInit {
   }
 
   handleOk(): void {
-    const data = {
-      id: this.authorID,
-      name: this.name,
-      image_url: this.avatarUrl
-    }
-    console.log(data);
-    this.api.updateSeries(this.authorID, data).subscribe(
+    let formData = new FormData();
+    formData.append('image_url', this.avatarFile);
+    formData.append('name', this.name);
+    formData.append('id', this.authorID);
+
+    this.api.updateSeries(this.authorID, formData).subscribe(
       (resp) => {
         console.log(resp);
         if (resp.status === 200) {
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated Successfully' });
-          this.addNewsCancel();
-          this.handleCancel();
+          this.api.listSeries().subscribe(
+            (resp) => {
+              if (resp.status === 200) {
+                this.data = resp.body.results;
+                this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated Successfully' });
+                this.addNewsCancel();
+                this.handleCancel();
+              }
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
         }
       },
       (error) => {
@@ -187,20 +196,29 @@ export class SeriesComponent implements OnInit {
   }
 
   publishSeries(): void {
-    const data = {
-      name: this.name,
-      image_url: this.avatarFile
-    }
+    let formData = new FormData();
+    formData.append('image_url', this.avatarFile);
+    formData.append('name', this.name);
+
     this.isLoadingTwo = true;
-    console.log(data);
-    this.api.addSeries(data).subscribe(
+    this.api.addSeries(formData).subscribe(
       (resp) => {
         console.log(resp);
         if (resp.status === 201) {
-          this.isLoadingTwo = false;
-          this.addBtn = true;
-          this.showAddSeriesForm = false;
-          this.messageService.add({ severity: 'success', summary: 'Congratulations', detail: 'Series added successfully!' });
+          this.api.listSeries().subscribe(
+            (resp) => {
+              if (resp.status === 200) {
+                this.data = resp.body.results;
+                this.isLoadingTwo = false;
+                this.addBtn = true;
+                this.showAddSeriesForm = false;
+                this.messageService.add({ severity: 'success', summary: 'Congratulations', detail: 'Series added successfully!' });
+              }
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
         }
       },
       (error) => {
