@@ -100,7 +100,6 @@ export class NewsComponent implements OnInit {
       display: true,
       perPage: 10
     },
-    noDataMessage: this.dataMsg,
     hideSubHeader: true
   };
 

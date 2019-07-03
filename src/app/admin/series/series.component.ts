@@ -64,7 +64,6 @@ export class SeriesComponent implements OnInit {
       display: true,
       perPage: 10
     },
-    noDataMessage: this.dataMsg,
     hideSubHeader: true,
     mode: 'external'
   };

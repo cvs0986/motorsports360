@@ -111,7 +111,6 @@ export class VidoesComponent implements OnInit {
       display: true,
       perPage: 10
     },
-    noDataMessage: this.dataMsg,
     hideSubHeader: true
   };
 
@@ -120,6 +119,7 @@ export class VidoesComponent implements OnInit {
   ngOnInit() {
     this.api.listVidoes().subscribe(
       (resp) => {
+        console.log(resp);
         if (resp.status === 200) {
           this.data = resp.body.results;
         }
