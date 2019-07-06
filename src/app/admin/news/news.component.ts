@@ -56,13 +56,17 @@ export class NewsComponent implements OnInit {
         },
         width: '15%'
       },
-      author: {
+      author_id: {
         title: 'Author',
-        editable: false
+        editable: false,
+        type: 'html',
+        valuePrepareFunction: (value) => { return `${value.name}` }
       },
       series_id: {
         title: 'Series',
-        editable: false
+        editable: false,
+        type: 'html',
+        valuePrepareFunction: (value) => { return `${value.name}` }
       },
       news_url: {
         title: 'News_Url',
@@ -94,7 +98,11 @@ export class NewsComponent implements OnInit {
       confirmDelete: true
     },
     actions: {
-      position: 'right'
+      position: 'right',
+      custom: [
+        { name: 'trendNews', title: `<img data-toggle="tooltip" data-placement="top" title="Trending" src="../../../assets/trending.png" class="mr-2 mb-2" width="20"/>` },
+        { name: 'topStory', title: `<img data-toggle="tooltip" data-placement="top" title="Top Story" src="../../../assets/top-story.png" class="mr-2 mb-2" width="20"/>` }
+      ]
     },
     pager: {
       display: true,
@@ -147,7 +155,19 @@ export class NewsComponent implements OnInit {
   }
 
   onSaveConfirm(event): void {
-    this.api.updateNews(event.newData.id, event.newData).subscribe(
+    const data = {
+      author_id: event.newData.author_id.id,
+      description: event.newData.description,
+      headline: event.newData.headline,
+      id: event.newData.id,
+      image_url: event.newData.image_url,
+      news_date: event.newData.news_date,
+      news_time: event.newData.news_time,
+      news_url: event.newData.news_url,
+      series_id: event.newData.series_id.id
+    }
+
+    this.api.updateNews(event.newData.id, data).subscribe(
       (resp) => {
         if (resp.status === 200) {
           event.confirm.resolve(this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated Successfully' }));
@@ -158,6 +178,41 @@ export class NewsComponent implements OnInit {
         event.confirm.reject(this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' }));
       }
     );
+  }
+
+  showTrendingConfirm(event): void {
+    this.modalService.confirm({
+      nzTitle: 'Confirm',
+      nzContent: 'Do you really want make this trending',
+      nzOkText: 'OK',
+      nzCancelText: 'Cancel',
+      nzOkLoading: false,
+      nzOnOk: () => {
+        console.log(event);
+      }
+    });
+  }
+
+  showTopStoryConfirm(event): void {
+    this.modalService.confirm({
+      nzTitle: 'Confirm',
+      nzContent: 'Do you really want make this top story?',
+      nzOkText: 'OK',
+      nzCancelText: 'Cancel',
+      nzOkLoading: false,
+      nzOnOk: () => {
+        console.log(event);
+      }
+    });
+  }
+
+  customAction(event) {
+    console.log(event);
+    if (event.action === "trendNews") {
+      this.showTrendingConfirm(event);
+    } else if (event.action === "topStory") {
+      this.showTopStoryConfirm(event);
+    }
   }
 
   showConfirm(event): void {
@@ -225,13 +280,21 @@ export class NewsComponent implements OnInit {
     this.showAddNewsForm = true;
   }
 
+  changeDate(date) {
+    return new Date(date).toDateString();
+  }
+
+  changeTime(time) {
+    return new Date(time).toLocaleTimeString();
+  }
+
   publishNews(): void {
     const newsData = {
       headline: this.newsHeadline,
       description: this.newsDescription,
-      author: this.newsAuthor,
-      news_date: this.newsDate,
-      news_time: this.newsTime,
+      author_id: this.newsAuthor,
+      news_date: this.changeDate(this.newsDate),
+      news_time: this.changeTime(this.newsTime),
       image_url: this.newsImgUrl,
       news_url: this.newsUrl,
       series_id: this.newsSeriesID

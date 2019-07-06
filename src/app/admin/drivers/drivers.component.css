@@ -1,0 +1,50 @@
+.addNewsForm {
+    background: #f2f2f2;
+    padding: 30px 20px;
+    border-radius: 5px;
+}
+
+label {
+    color: #777;
+    font-size: 14px;
+    text-transform: uppercase
+}
+
+td img {
+  border-radius: 5px;
+}
+
+thead {
+  background: #f2f2f2;
+}
+
+ng2-smart-table table {
+    line-height: 1.5em;
+    border-collapse: collapse;
+    border-spacing: 0;
+    display: table;
+    width: 100%;
+    max-width: 100%;
+    overflow: auto;
+    word-break: normal;
+    word-break: keep-all;
+    border: 1px solid #f2f2f2;
+}
+
+.bannerAvatarWrap{
+  background: #f2f2f2;
+  padding: 60px;
+  border-radius: 8px;
+}
+
+.avatar {
+  width: 200px;
+}
+.upload-icon {
+  font-size: 32px;
+  color: #999;
+}
+.ant-upload-text {
+  margin-top: 8px;
+  color: #666;
+}

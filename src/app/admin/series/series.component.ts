@@ -21,6 +21,9 @@ export class SeriesComponent implements OnInit {
   name;
   image_url;
   authorID;
+  driver_url;
+  team_url;
+  event_url;
 
   showAddSeriesForm = false;
   isLoadingTwo = false;
@@ -199,6 +202,9 @@ export class SeriesComponent implements OnInit {
     let formData = new FormData();
     formData.append('image_url', this.avatarFile);
     formData.append('name', this.name);
+    formData.append('event_url', this.event_url);
+    formData.append('team_url', this.team_url);
+    formData.append('driver_url', this.driver_url);
 
     this.isLoadingTwo = true;
     this.api.addSeries(formData).subscribe(

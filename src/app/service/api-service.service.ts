@@ -33,7 +33,7 @@ export class ApiServiceService {
       'Authorization': `Token ${this.access_token}`
     });
 
-    return this.http.get<any>(this.url + 'news/', {
+    return this.http.get<any>(this.url + 'news_full/', {
       observe: 'response',
       responseType: 'json',
       headers: headers,
@@ -92,7 +92,7 @@ export class ApiServiceService {
       'Authorization': `Token ${this.access_token}`
     });
 
-    return this.http.get<any>(this.url + 'videos', {
+    return this.http.get<any>(this.url + 'videos_full', {
       observe: 'response',
       responseType: 'json',
       headers: headers,
@@ -151,7 +151,7 @@ export class ApiServiceService {
       'Authorization': `Token ${this.access_token}`
     });
 
-    return this.http.get<any>(this.url + 'audios', {
+    return this.http.get<any>(this.url + 'audios_full', {
       observe: 'response',
       responseType: 'json',
       headers: headers,
@@ -313,5 +313,32 @@ export class ApiServiceService {
     });
   }
 
+  listDrivers() {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Token ${this.access_token}`
+    });
+
+    return this.http.get<any>(this.url + 'drivers/', {
+      observe: 'response',
+      responseType: 'json',
+      headers: headers,
+      withCredentials: true
+    });
+  }
+
+  updateDrivers(id, data) {
+    const headers = new HttpHeaders({
+      'Authorization': `Token ${this.access_token}`
+    });
+
+    return this.http.patch<any>(`${this.url}drivers/${id}/`, data, {
+      observe: 'response',
+      responseType: 'json',
+      headers: headers,
+      withCredentials: true
+    });
+  }
   
 }

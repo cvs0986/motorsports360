@@ -10,20 +10,8 @@ import { ApiServiceService } from 'src/app/service/api-service.service';
 export class AudiosComponent implements OnInit {
   data: any[];
 
-  seriesIDs: any[] = [
-    { id: 18, name: 'Formula1' },
-    { id: 20, name: 'NASCAR' },
-    { id: 21, name: 'MotoGP' },
-    { id: 19, name: 'World Rally Championship	' },
-    { id: 23, name: 'Supercars' },
-    { id: 22, name: 'World Superbikes' },
-    { id: 24, name: 'IndyCar' },
-    { id: 25, name: 'Formula E' },
-    { id: 26, name: 'World Rally Cross' },
-    { id: 27, name: 'World Touring Car Cup' },
-    { id: 28, name: 'Drag Racing' },
-    { id: 29, name: 'World of Outlaws Sprintcars' }
-  ];
+  seriesIDs: any[];
+  authorsIDs: any[];
 
   audioHeadline;
   headlineTitle = 'Enter News Headline';
@@ -34,6 +22,7 @@ export class AudiosComponent implements OnInit {
   audioDate;
   audioDescription;
   audioUrl;
+  audioAuthor;
 
   showAddNewsForm = false;
   isLoadingTwo = false;
@@ -63,7 +52,15 @@ export class AudiosComponent implements OnInit {
       },
       series_id: {
         title: 'Series',
-        editable: false
+        editable: false,
+        type: 'html',
+        valuePrepareFunction: (value) => { return `${value.name}` }
+      },
+      author_id: {
+        title: 'Author',
+        editable: false,
+        type: 'html',
+        valuePrepareFunction: (value) => { return `${value.name}` }
       },
       url: {
         title: 'Url',
@@ -115,11 +112,10 @@ export class AudiosComponent implements OnInit {
   };
 
 
-  constructor(private messageService: MessageService, private api: ApiServiceService) { }
-
-  ngOnInit() {
+  constructor(private messageService: MessageService, private api: ApiServiceService) {
     this.api.listAudios().subscribe(
       (resp) => {
+        console.log(resp);
         if (resp.status === 200) {
           this.data = resp.body.results;
         }
@@ -128,10 +124,51 @@ export class AudiosComponent implements OnInit {
         console.log(error);
       }
     );
+
+    this.api.listSeries().subscribe(
+      (resp) => {
+        if (resp.status === 200) {
+          console.log(resp);
+          this.seriesIDs = resp.body.results;
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    this.api.listAuthor().subscribe(
+      (resp) => {
+        if (resp.status === 200) {
+          console.log(resp);
+          this.authorsIDs = resp.body.results;
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+   }
+
+  ngOnInit() {
+    
   }
 
   onSaveConfirm(event): void {
-    this.api.updateAudio(event.newData.id, event.newData).subscribe(
+    const data = {
+      author_id: event.newData.author_id.id,
+      description: event.newData.description,
+      headline: event.newData.headline,
+      id: event.newData.id,
+      image_url: event.newData.image_url,
+      date: event.newData.date,
+      time: event.newData.time,
+      news_url: event.newData.news_url,
+      series_id: event.newData.series_id.id
+    }
+
+    this.api.updateAudio(event.newData.id, data).subscribe(
       (resp) => {
         console.log(resp);
         if (resp.status === 200) {
@@ -198,15 +235,24 @@ export class AudiosComponent implements OnInit {
     this.showAddNewsForm = true;
   }
 
+  changeDate(date) {
+    return new Date(date).toDateString();
+  }
+
+  changeTime(time) {
+    return new Date(time).toLocaleTimeString();
+  }
+
   publishAudio(): void {
     const data = {
       title: this.audioHeadline,
-      date: this.audioDate,
-      time: this.audioTime,
+      date: this.changeDate(this.audioDate),
+      time: this.changeTime(this.audioTime),
       image_url: this.audioImageUrl,
       series_id: this.seriesID,
       url: this.audioUrl,
-      description: this.audioDescription
+      description: this.audioDescription,
+      author_id: this.audioAuthor
     }
     this.isLoadingTwo = true;
     console.log(data);
@@ -214,10 +260,21 @@ export class AudiosComponent implements OnInit {
       (resp) => {
         console.log(resp);
         if (resp.status === 201) {
-          this.isLoadingTwo = false;
-          this.addBtn = true;
-          this.showAddNewsForm = false;
-          this.messageService.add({ severity: 'success', summary: 'Congratulations', detail: 'Audio published successfully!' });
+          this.api.listAudios().subscribe(
+            (resp) => {
+              console.log(resp);
+              if (resp.status === 200) {
+                this.data = resp.body.results;
+                this.isLoadingTwo = false;
+                this.addBtn = true;
+                this.showAddNewsForm = false;
+                this.messageService.add({ severity: 'success', summary: 'Congratulations', detail: 'Audio published successfully!' });
+              }
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
         }
       },
       (error) => {
