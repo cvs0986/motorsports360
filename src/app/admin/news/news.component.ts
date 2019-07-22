@@ -68,6 +68,38 @@ export class NewsComponent implements OnInit {
         type: 'html',
         valuePrepareFunction: (value) => { return `${value.name}` }
       },
+      trending: {
+        title: 'Trending',
+        type: 'html',
+        editable: false,
+        valuePrepareFunction: (value) => {
+          function showTrending() {
+            if (value === false) {
+              return 'NO';
+            } else if (value === true) {
+              return 'YES';
+            }
+          }
+
+          return `${showTrending()}`;
+        }
+      },
+      top: {
+        title: 'Top_Story',
+        type: 'html',
+        editable: false,
+        valuePrepareFunction: (value) => {
+          function showTop() {
+            if (value === false) {
+              return 'NO';
+            } else if (value === true) {
+              return 'YES';
+            }
+          }
+
+          return `${showTop()}`;
+        }
+      },
       news_url: {
         title: 'News_Url',
         editable: false,
@@ -111,7 +143,7 @@ export class NewsComponent implements OnInit {
     hideSubHeader: true
   };
 
-  constructor(private messageService: MessageService, private api: ApiServiceService, private modalService: NzModalService) { 
+  constructor(private messageService: MessageService, private api: ApiServiceService, private modalService: NzModalService) {
     this.api.listNews().subscribe(
       (resp) => {
         if (resp.status === 200) {
@@ -151,7 +183,7 @@ export class NewsComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+
   }
 
   onSaveConfirm(event): void {
@@ -165,7 +197,7 @@ export class NewsComponent implements OnInit {
       news_time: event.newData.news_time,
       news_url: event.newData.news_url,
       series_id: event.newData.series_id.id
-    }
+    };
 
     this.api.updateNews(event.newData.id, data).subscribe(
       (resp) => {
@@ -181,27 +213,124 @@ export class NewsComponent implements OnInit {
   }
 
   showTrendingConfirm(event): void {
+    function showTrending() {
+      if (event.data.trending === false) {
+        return 'Do you really want make this news trending?';
+      } else if (event.data.trending === true) {
+        return 'Do you really want remove this news from trending?';
+      }
+    }
     this.modalService.confirm({
       nzTitle: 'Confirm',
-      nzContent: 'Do you really want make this trending',
+      nzContent: showTrending(),
       nzOkText: 'OK',
       nzCancelText: 'Cancel',
       nzOkLoading: false,
       nzOnOk: () => {
-        console.log(event);
-      }
-    });
+        function toggleTrending() {
+          if (event.data.trending === false) {
+            return true;
+          } else if (event.data.trending === true) {
+            return false;
+          }
+        }
+        const data = {
+          author_id: event.data.author_id.id,
+          description: event.data.description,
+          headline: event.data.headline,
+          id: event.data.id,
+          image_url: event.data.image_url,
+          news_date: event.data.news_date,
+          news_time: event.data.news_time,
+          news_url: event.data.news_url,
+          series_id: event.data.series_id.id,
+          trending: toggleTrending(),
+          top: event.data.top
+        };
+        this.api.updateNews(event.data.id, data).subscribe(
+          (resp) => {
+            if (resp.status === 200) {
+              this.api.listNews().subscribe(
+                // tslint:disable-next-line: no-shadowed-variable
+                (resp) => {
+                  if (resp.status === 200) {
+                    console.log(resp);
+                    this.data = resp.body.results;
+                    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated Successfully' });
+                  }
+                },
+                (error) => {
+                  console.log(error);
+                }
+              );
+            }
+          },
+          (error) => {
+            console.log(error);
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' });
+          }
+        );
+    }});
   }
 
   showTopStoryConfirm(event): void {
+    function showTop() {
+      if (event.data.top === false) {
+        return 'Do you really want make this news top story?';
+      } else if (event.data.top === true) {
+        return 'Do you really want remove this news from top story?';
+      }
+    }
     this.modalService.confirm({
       nzTitle: 'Confirm',
-      nzContent: 'Do you really want make this top story?',
+      nzContent: showTop(),
       nzOkText: 'OK',
       nzCancelText: 'Cancel',
       nzOkLoading: false,
       nzOnOk: () => {
-        console.log(event);
+        function toggleTop() {
+          if (event.data.top === false) {
+            return true;
+          } else if (event.data.top === true) {
+            return false;
+          }
+        }
+        const data = {
+          author_id: event.data.author_id.id,
+          description: event.data.description,
+          headline: event.data.headline,
+          id: event.data.id,
+          image_url: event.data.image_url,
+          news_date: event.data.news_date,
+          news_time: event.data.news_time,
+          news_url: event.data.news_url,
+          series_id: event.data.series_id.id,
+          trending: event.data.trending,
+          top: toggleTop()
+        };
+        this.api.updateNews(event.data.id, data).subscribe(
+          (resp) => {
+            if (resp.status === 200) {
+              this.api.listNews().subscribe(
+                // tslint:disable-next-line: no-shadowed-variable
+                (resp) => {
+                  if (resp.status === 200) {
+                    console.log(resp);
+                    this.data = resp.body.results;
+                    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated Successfully' });
+                  }
+                },
+                (error) => {
+                  console.log(error);
+                }
+              );
+            }
+          },
+          (error) => {
+            console.log(error);
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' });
+          }
+        );
       }
     });
   }
@@ -228,7 +357,7 @@ export class NewsComponent implements OnInit {
             console.log(resp);
             if (resp.status === 204) {
               console.log(resp);
-              event.confirm.resolve(this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated Successfully' }));
+              event.confirm.resolve(this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Deleted Successfully' }));
             }
           },
           (error) => {

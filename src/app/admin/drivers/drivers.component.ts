@@ -22,12 +22,16 @@ export class DriversComponent implements OnInit {
   teamAvatarUrl: string;
   teamAvatarFile;
 
+  leaderAvatarUrl: string;
+  leaderAvatarFile;
+
   name;
   image_url;
   authorID;
   driver_url;
   team_url;
   event_url;
+
 
   showAddSeriesForm = false;
   isLoadingTwo = false;
@@ -60,6 +64,11 @@ export class DriversComponent implements OnInit {
         type: 'html',
         valuePrepareFunction: (value) => { return `<a href="${value}" target="_blank">Team Link</a>` },
       },
+      leader_url: {
+        title: 'Leader Url',
+        type: 'html',
+        valuePrepareFunction: (value) => { return `<a href="${value}" target="_blank">Leader Link</a>` },
+      },
     },
     add: {
       addButtonContent: 'Add',
@@ -88,38 +97,133 @@ export class DriversComponent implements OnInit {
 
   private getBase64(img: File, callback: (img: string) => void): void {
     const reader = new FileReader();
+// tslint:disable-next-line: no-non-null-assertion
     reader.addEventListener('load', () => callback(reader.result!.toString()));
     reader.readAsDataURL(img);
   }
 
   driverAvatarChange(info: { file: UploadFile }): void {
+// tslint:disable-next-line: no-non-null-assertion
     this.getBase64(info.file!.originFileObj!, (img: string) => {
       this.loading = false;
       this.driverAvatarUrl = img;
+// tslint:disable-next-line: no-non-null-assertion
       this.driverAvatarFile = info.file!.originFileObj!;
       console.log(this.driverAvatarFile);
+      const data = new FormData();
+      data.append('driver_banner_image', this.driverAvatarFile);
+
+      this.api.updateDriverBanner(1, data).subscribe(
+        (resp) => {
+          console.log(resp, this.driverAvatarFile);
+          this.driverAvatarUrl = resp.body.driver_banner_image;
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Driver Banner changed Successfully!' });
+        },
+        (error) => {
+          console.log(error, this.driverAvatarFile);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' });
+        }
+      );
     });
   }
 
   teamAvatarChange(info: { file: UploadFile }): void {
+// tslint:disable-next-line: no-non-null-assertion
     this.getBase64(info.file!.originFileObj!, (img: string) => {
       this.loading = false;
       this.teamAvatarUrl = img;
+// tslint:disable-next-line: no-non-null-assertion
       this.teamAvatarFile = info.file!.originFileObj!;
       console.log(this.teamAvatarFile);
+
+      const data = new FormData();
+      data.append('team_banner_image', this.teamAvatarFile);
+
+      this.api.updateTeamBanner(1, data).subscribe(
+        (resp) => {
+          console.log(resp, this.teamAvatarFile);
+          this.teamAvatarUrl = resp.body.team_banner_image;
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Team Banner changed Successfully!' });
+        },
+        (error) => {
+          console.log(error, this.teamAvatarFile);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' });
+        }
+      );
     });
   }
 
   eventAvatarChange(info: { file: UploadFile }): void {
+// tslint:disable-next-line: no-non-null-assertion
     this.getBase64(info.file!.originFileObj!, (img: string) => {
       this.loading = false;
       this.eventAvatarUrl = img;
+// tslint:disable-next-line: no-non-null-assertion
       this.eventAvatarFile = info.file!.originFileObj!;
       console.log(this.eventAvatarFile);
+      const data = new FormData();
+      data.append('event_banner_image', this.eventAvatarFile);
+      // const data = {
+      //   event_banner_image: this.eventAvatarFile
+      // };
+
+      this.api.updateEventBanner(1, data).subscribe(
+        (resp) => {
+          console.log(resp, this.eventAvatarFile);
+          this.eventAvatarUrl = resp.body.event_banner_image;
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Event Banner changed Successfully!'});
+        },
+        (error) => {
+          console.log(error, this.eventAvatarFile);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!'});
+        }
+      );
     });
   }
 
-  constructor(private messageService: MessageService, private api: ApiServiceService, private msg: NzMessageService, private modalService: NzModalService) { }
+  leaderAvatarChange(info: { file: UploadFile }): void {
+    // tslint:disable-next-line: no-non-null-assertion
+    this.getBase64(info.file!.originFileObj!, (img: string) => {
+      this.loading = false;
+      this.leaderAvatarUrl = img;
+      // tslint:disable-next-line: no-non-null-assertion
+      this.leaderAvatarFile = info.file!.originFileObj!;
+      console.log(this.eventAvatarFile);
+      const data = new FormData();
+      data.append('leader_banner_image', this.leaderAvatarFile);
+      // const data = {
+      //   event_banner_image: this.eventAvatarFile
+      // };
+
+      this.api.updateLeaderBanner(1, data).subscribe(
+        (resp) => {
+          console.log(resp, this.leaderAvatarFile);
+          this.eventAvatarUrl = resp.body.leader_banner_image;
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Leader Banner changed Successfully!' });
+        },
+        (error) => {
+          console.log(error, this.leaderAvatarFile);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' });
+        }
+      );
+    });
+  }
+
+// tslint:disable-next-line: max-line-length
+  constructor(private messageService: MessageService, private api: ApiServiceService, private msg: NzMessageService, private modalService: NzModalService) {
+    this.api.getBannerImages().subscribe(
+      (resp) => {
+        console.log(resp);
+        this.driverAvatarUrl = resp.body.results[0].driver_banner_image;
+        this.eventAvatarUrl = resp.body.results[0].event_banner_image;
+        this.teamAvatarUrl = resp.body.results[0].team_banner_image;
+        this.leaderAvatarUrl = resp.body.results[0].leader_banner_image;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+   }
 
   ngOnInit() {
     this.api.listDrivers().subscribe(

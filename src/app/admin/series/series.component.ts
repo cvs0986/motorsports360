@@ -24,12 +24,13 @@ export class SeriesComponent implements OnInit {
   driver_url;
   team_url;
   event_url;
+  leader_url;
 
   showAddSeriesForm = false;
   isLoadingTwo = false;
   addBtn = true;
 
-  dataMsg: string = 'Please Wait while data is loading ...';
+  dataMsg = 'Please Wait while data is loading ...';
   settings = {
     columns: {
       id: {
@@ -39,7 +40,7 @@ export class SeriesComponent implements OnInit {
       image_url: {
         title: 'Image',
         type: 'html',
-        valuePrepareFunction: (value) => { return `<img src="${value}" width="80" style="border-radius: 22px;" />` },
+        valuePrepareFunction: (value) => `<img src="${value}" width="80" style="border-radius: 22px;" />`,
       },
       name: {
         title: 'Name'
@@ -73,20 +74,26 @@ export class SeriesComponent implements OnInit {
 
   private getBase64(img: File, callback: (img: string) => void): void {
     const reader = new FileReader();
+// tslint:disable-next-line: no-non-null-assertion
     reader.addEventListener('load', () => callback(reader.result!.toString()));
     reader.readAsDataURL(img);
   }
 
   handleChange(info: { file: UploadFile }): void {
+// tslint:disable-next-line: no-non-null-assertion
     this.getBase64(info.file!.originFileObj!, (img: string) => {
       this.loading = false;
       this.avatarUrl = img;
+// tslint:disable-next-line: no-non-null-assertion
       this.avatarFile = info.file!.originFileObj!;
+// tslint:disable-next-line: no-non-null-assertion
       this.avatarFileName = info.file!.name;
+// tslint:disable-next-line: no-non-null-assertion
       console.log(info.file!);
     });
   }
 
+// tslint:disable-next-line: max-line-length
   constructor(private messageService: MessageService, private api: ApiServiceService, private msg: NzMessageService, private modalService: NzModalService) {
     this.api.listSeries().subscribe(
       (resp) => {
@@ -102,7 +109,7 @@ export class SeriesComponent implements OnInit {
    }
 
   ngOnInit() {
-    
+
   }
 
   showConfirm(event): void {
@@ -118,6 +125,7 @@ export class SeriesComponent implements OnInit {
             console.log(resp);
             if (resp.status === 204) {
               this.api.listSeries().subscribe(
+// tslint:disable-next-line: no-shadowed-variable
                 (resp) => {
                   if (resp.status === 200) {
                     console.log(resp);
@@ -149,7 +157,7 @@ export class SeriesComponent implements OnInit {
   }
 
   handleOk(): void {
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append('image_url', this.avatarFile);
     formData.append('name', this.name);
     formData.append('id', this.authorID);
@@ -159,6 +167,7 @@ export class SeriesComponent implements OnInit {
         console.log(resp);
         if (resp.status === 200) {
           this.api.listSeries().subscribe(
+// tslint:disable-next-line: no-shadowed-variable
             (resp) => {
               if (resp.status === 200) {
                 this.data = resp.body.results;
@@ -177,7 +186,7 @@ export class SeriesComponent implements OnInit {
         console.log(error);
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' });
       }
-    )
+    );
   }
 
   handleCancel(): void {
@@ -190,7 +199,7 @@ export class SeriesComponent implements OnInit {
     console.log(event);
     this.name = event.data.name;
     this.avatarUrl = event.data.image_url;
-    this.authorID = event.data.id
+    this.authorID = event.data.id;
   }
 
   addBtnClicked() {
@@ -199,12 +208,13 @@ export class SeriesComponent implements OnInit {
   }
 
   publishSeries(): void {
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append('image_url', this.avatarFile);
     formData.append('name', this.name);
     formData.append('event_url', this.event_url);
     formData.append('team_url', this.team_url);
     formData.append('driver_url', this.driver_url);
+    formData.append('leader_url', this.leader_url);
 
     this.isLoadingTwo = true;
     this.api.addSeries(formData).subscribe(
@@ -212,6 +222,7 @@ export class SeriesComponent implements OnInit {
         console.log(resp);
         if (resp.status === 201) {
           this.api.listSeries().subscribe(
+// tslint:disable-next-line: no-shadowed-variable
             (resp) => {
               if (resp.status === 200) {
                 this.data = resp.body.results;
@@ -239,7 +250,7 @@ export class SeriesComponent implements OnInit {
     this.addBtn = true;
     this.showAddSeriesForm = false;
     this.name = '';
-    this.avatarUrl = ''
+    this.avatarUrl = '';
   }
 
 }

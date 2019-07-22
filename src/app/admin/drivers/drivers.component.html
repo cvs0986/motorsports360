@@ -4,7 +4,7 @@
 </div>
 
 <div class="row my-5 bannerAvatarWrap">
-  <div class="col-md-4">
+  <div class="col-md-3">
     <label for="">Driver Banner Image</label>
     <nz-upload class="avatar-uploader" nzName="avatar" nzListType="picture-card" [nzShowUploadList]="false"
       (nzChange)="driverAvatarChange($event)">
@@ -16,7 +16,7 @@
     </nz-upload>
   </div>
 
-  <div class="col-md-4">
+  <div class="col-md-3">
     <label for="">Team Banner Image</label>
     <nz-upload class="avatar-uploader" nzName="avatar" nzListType="picture-card" [nzShowUploadList]="false"
       (nzChange)="teamAvatarChange($event)">
@@ -28,7 +28,7 @@
     </nz-upload>
   </div>
 
-  <div class="col-md-4">
+  <div class="col-md-3">
     <label for="">Event Banner Image</label>
     <nz-upload class="avatar-uploader" nzName="avatar" nzListType="picture-card" [nzShowUploadList]="false"
       (nzChange)="eventAvatarChange($event)">
@@ -37,6 +37,18 @@
         <div class="ant-upload-text">Upload</div>
       </ng-container>
       <img *ngIf="eventAvatarUrl" [src]="eventAvatarUrl" class="avatar" />
+    </nz-upload>
+  </div>
+
+  <div class="col-md-3">
+    <label for="">Leader Banner Image</label>
+    <nz-upload class="avatar-uploader" nzName="avatar" nzListType="picture-card" [nzShowUploadList]="false"
+      (nzChange)="leaderAvatarChange($event)">
+      <ng-container *ngIf="!leaderAvatarUrl">
+        <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
+        <div class="ant-upload-text">Upload</div>
+      </ng-container>
+      <img *ngIf="leaderAvatarUrl" [src]="leaderAvatarUrl" class="avatar" />
     </nz-upload>
   </div>
 </div>

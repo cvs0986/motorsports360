@@ -38,6 +38,10 @@
 
   <div class="row mt-3">
     <div class="col-md-6">
+      <label for="">Leader Url</label>
+      <input nz-input nz-tooltip placeholder="Leader url" style="width: 100%" [(ngModel)]="leader_url" />
+    </div>
+    <div class="col-md-6">
       <nz-upload class="avatar-uploader" nzName="avatar"
         nzListType="picture-card" [nzShowUploadList]="false"
         (nzChange)="handleChange($event)">
