@@ -35,6 +35,15 @@
         <a [routerLink]="['/admin/drivers']" routerLinkActive="router-link-active"><img src="../../assets/drivers.png"
             class="mr-3" width="20" alt=""> Drivers/Events/Team</a>
       </li>
+      <li>
+        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><img src="../../assets/tiles.png"
+            class="mr-3" width="20" alt=""> Tiles</a>
+        <ul class="collapse list-unstyled" id="homeSubmenu">
+          <li>
+            <a [routerLink]="['/admin/vidoes-tiles']" routerLinkActive="router-link-active">Videos</a>
+          </li>
+        </ul>
+      </li>
     </ul>
 
     <ul class="list-unstyled CTAs">

@@ -409,4 +409,61 @@ export class ApiServiceService {
     });
   }
 
+  listVideoTiles() {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Token ${this.access_token}`
+    });
+
+    return this.http.get<any>(this.url + 'video_tiles/', {
+      observe: 'response',
+      responseType: 'json',
+      headers,
+      withCredentials: true
+    });
+  }
+
+  updateVideoTiles(id, data) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Token ${this.access_token}`
+    });
+
+    return this.http.patch<any>(`${this.url}video_tiles/${id}/`, data, {
+      observe: 'response',
+      responseType: 'json',
+      headers,
+      withCredentials: true
+    });
+  }
+
+  deleteVideoTiles(id) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Token ${this.access_token}`
+    });
+
+    return this.http.delete<any>(`${this.url}video_tiles/${id}/`, {
+      observe: 'response',
+      responseType: 'json',
+      headers,
+      withCredentials: true
+    });
+  }
+
+  addVideoTiles(data) {
+    const headers = new HttpHeaders({
+      Authorization: `Token ${this.access_token}`
+    });
+    return this.http.post<any>(this.url + 'video_tiles/', data, {
+      observe: 'response',
+      responseType: 'json',
+      headers,
+      withCredentials: true
+    });
+  }
+
 }

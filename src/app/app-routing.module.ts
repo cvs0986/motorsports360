@@ -9,6 +9,7 @@ import { VidoesComponent } from './admin/vidoes/vidoes.component';
 import { AudiosComponent } from './admin/audios/audios.component';
 import { AuthorComponent } from './admin/author/author.component';
 import { DriversComponent } from './admin/drivers/drivers.component';
+import { VidoesTilesComponent } from './admin/tiles/vidoes-tiles/vidoes-tiles.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full'},
@@ -22,7 +23,8 @@ const routes: Routes = [
     { path: 'vidoes', component: VidoesComponent},
     { path: 'audios', component: AudiosComponent},
     { path: 'author', component: AuthorComponent},
-    { path: 'drivers', component: DriversComponent}
+    { path: 'drivers', component: DriversComponent},
+    {path: 'vidoes-tiles', component: VidoesTilesComponent},
   ]}
 ];
 

@@ -32,6 +32,7 @@ import { VidoesComponent } from './admin/vidoes/vidoes.component';
 import { AudiosComponent } from './admin/audios/audios.component';
 import { AuthorComponent } from './admin/author/author.component';
 import { DriversComponent } from './admin/drivers/drivers.component';
+import { VidoesTilesComponent } from './admin/tiles/vidoes-tiles/vidoes-tiles.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { DriversComponent } from './admin/drivers/drivers.component';
     VidoesComponent,
     AudiosComponent,
     AuthorComponent,
-    DriversComponent
+    DriversComponent,
+    VidoesTilesComponent
   ],
   imports: [
     BrowserModule,
