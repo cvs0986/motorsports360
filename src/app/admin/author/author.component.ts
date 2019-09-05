@@ -12,6 +12,7 @@ import { NzMessageService, NzModalService, UploadFile } from 'ng-zorro-antd';
 })
 export class AuthorComponent implements OnInit {
   data: any[];
+  isSpinning = false;
   isVisible = false;
 
   loading = false;
@@ -60,7 +61,10 @@ export class AuthorComponent implements OnInit {
       confirmDelete: true
     },
     actions: {
-      position: 'right'
+      position: 'right',
+      custom: [
+        { name: 'scrapAuthor', title: `<img data-toggle="tooltip" data-placement="top" title="Scrap" src="../../../assets/scraping.png" class="mr-2 mb-2" width="20"/>` },
+      ]
     },
     pager: {
       display: true,
@@ -69,7 +73,7 @@ export class AuthorComponent implements OnInit {
     hideSubHeader: true,
     mode: 'external'
   };
-  
+
 
   // beforeUpload = (file: File) => {
   //   return new Observable((observer: Observer<boolean>) => {
@@ -101,15 +105,18 @@ export class AuthorComponent implements OnInit {
 
 
   constructor(private messageService: MessageService, private api: ApiServiceService, private msg: NzMessageService, private modalService: NzModalService) {
+    this.isSpinning = true;
     this.api.listAuthor().subscribe(
       (resp) => {
         if (resp.status === 200) {
           console.log(resp);
           this.data = resp.body.results;
+          this.isSpinning = false;
         }
       },
       (error) => {
         console.log(error);
+        this.isSpinning = false;
       }
     );
    }
@@ -198,6 +205,41 @@ export class AuthorComponent implements OnInit {
     this.addNewsCancel();
   }
 
+  showScrappingConfirm(event): void {
+    this.modalService.confirm({
+      nzTitle: 'Confirm',
+      nzContent: 'Do you really want to scrap this author?',
+      nzOkText: 'OK',
+      nzCancelText: 'Cancel',
+      nzOkLoading: false,
+      nzOnOk: () => {
+        console.log(event.data);
+        const formData = new FormData();
+        formData.append('author_id', event.data.id);
+        this.api.scrapAuthor(formData).subscribe(
+          (resp) => {
+            console.log(formData, resp);
+            if (resp.status === 200) {
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Scrap Successfull' });
+            } else {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' });
+            }
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+    });
+  }
+
+  customAction(event) {
+    console.log(event);
+    if (event.action === 'scrapAuthor') {
+      this.showScrappingConfirm(event);
+    }
+  }
+
   onEditRow(event) {
     this.showModal();
     console.log(event);
@@ -215,7 +257,7 @@ export class AuthorComponent implements OnInit {
     let formData = new FormData();
     formData.append('image_url', this.avatarFile);
     formData.append('name', this.name);
-    
+
     this.isLoadingTwo = true;
     this.api.addAuthor(formData).subscribe(
       (resp) => {

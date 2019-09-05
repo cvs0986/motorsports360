@@ -10,6 +10,7 @@ import { NzMessageService, NzModalService, UploadFile } from 'ng-zorro-antd';
 })
 export class DriversComponent implements OnInit {
   data: any[];
+  isSpinning = false;
 
   loading = false;
 
@@ -226,15 +227,18 @@ export class DriversComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.isSpinning = true;
     this.api.listDrivers().subscribe(
       (resp) => {
         if (resp.status === 200) {
           console.log(resp);
           this.data = resp.body.results;
+          this.isSpinning = false;
         }
       },
       (error) => {
         console.log(error);
+        this.isSpinning = false;
       }
     );
   }

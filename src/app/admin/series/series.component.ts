@@ -11,6 +11,7 @@ import { Observable, Observer } from 'rxjs';
 })
 export class SeriesComponent implements OnInit {
   data: any[];
+  isSpinning = false;
 
   isVisible = false;
   loading = false;
@@ -95,14 +96,17 @@ export class SeriesComponent implements OnInit {
 
 // tslint:disable-next-line: max-line-length
   constructor(private messageService: MessageService, private api: ApiServiceService, private msg: NzMessageService, private modalService: NzModalService) {
+    this.isSpinning = true;
     this.api.listSeries().subscribe(
       (resp) => {
         if (resp.status === 200) {
           console.log(resp);
           this.data = resp.body.results;
+          this.isSpinning = false;
         }
       },
       (error) => {
+        this.isSpinning = false;
         console.log(error);
       }
     );

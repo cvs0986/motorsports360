@@ -45,13 +45,13 @@
   </div>
 </div>
 
-
-<div class="row">
-  <ng2-smart-table class="table table-responsive" (delete)="authorDelete($event)" (edit)="onEditRow($event)"
-     (edit)="onEditRow($event)" [settings]="settings"
-    [source]="data">
-  </ng2-smart-table>
-</div>
+<nz-spin [nzSpinning]="isSpinning">
+  <div class="row">
+    <ng2-smart-table class="table table-responsive" (delete)="authorDelete($event)" (edit)="onEditRow($event)"
+      (edit)="onEditRow($event)" (custom)="customAction($event)" [settings]="settings" [source]="data">
+    </ng2-smart-table>
+  </div>
+</nz-spin>
 
 
 <nz-modal [(nzVisible)]="isVisible" nzTitle="EDIT AUTHOR" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">

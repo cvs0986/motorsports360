@@ -9,6 +9,7 @@ import { ApiServiceService } from 'src/app/service/api-service.service';
 })
 export class AudiosComponent implements OnInit {
   data: any[];
+  isSpinning = false;
 
   seriesIDs: any[];
   authorsIDs: any[];
@@ -113,15 +114,18 @@ export class AudiosComponent implements OnInit {
 
 
   constructor(private messageService: MessageService, private api: ApiServiceService) {
+    this.isSpinning = true;
     this.api.listAudios().subscribe(
       (resp) => {
         console.log(resp);
         if (resp.status === 200) {
           this.data = resp.body.results;
+          this.isSpinning = false;
         }
       },
       (error) => {
         console.log(error);
+        this.isSpinning = false;
       }
     );
 
@@ -152,7 +156,7 @@ export class AudiosComponent implements OnInit {
    }
 
   ngOnInit() {
-    
+
   }
 
   onSaveConfirm(event): void {

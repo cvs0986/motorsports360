@@ -28,7 +28,7 @@
         <nz-option *ngFor="let author of authorsIDs" [nzLabel]="author.name" [nzValue]="author.id"></nz-option>
       </nz-select>
     </div>
-    <div class="col-md-2"> 
+    <div class="col-md-2">
       <label>NEWS DATE</label>
       <!-- <input nz-input nz-tooltip placeholder="Date" style="width: 100%" [(ngModel)]="newsDate" /> -->
       <nz-date-picker [(ngModel)]="newsDate"></nz-date-picker>
@@ -81,8 +81,10 @@
     <nz-option *ngFor="let number of dataRow" [nzLabel]="number.rowCounts" [nzValue]="number.rowCounts"></nz-option>
   </nz-select>
 </div> -->
-<div class="row">
-  <ng2-smart-table class="table table-responsive" (deleteConfirm)="onDeleteConfirm($event)" (edit)="onEditRow($event)"
-    (editConfirm)="onSaveConfirm($event)" (custom)="customAction($event)" [settings]="settings" [source]="data">
-  </ng2-smart-table>
-</div>
+<nz-spin [nzSpinning]="isSpinning">
+  <div class="row">
+    <ng2-smart-table class="table table-responsive" (deleteConfirm)="onDeleteConfirm($event)" (edit)="onEditRow($event)"
+      (editConfirm)="onSaveConfirm($event)" (custom)="customAction($event)" [settings]="settings" [source]="data">
+    </ng2-smart-table>
+  </div>
+</nz-spin>

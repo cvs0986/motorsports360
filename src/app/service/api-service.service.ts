@@ -466,4 +466,16 @@ export class ApiServiceService {
     });
   }
 
+  scrapAuthor(data) {
+    const headers = new HttpHeaders({
+      Authorization: `Token ${this.access_token}`
+    });
+    return this.http.post<any>(this.url + 'scraping/', data, {
+      observe: 'response',
+      responseType: 'json',
+      headers,
+      withCredentials: true
+    });
+  }
+
 }

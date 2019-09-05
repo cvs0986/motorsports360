@@ -10,6 +10,7 @@ import { UploadFile } from 'ng-zorro-antd';
 })
 export class VidoesTilesComponent implements OnInit {
   data: any[];
+  isSpinning = false;
 
   name;
   url;
@@ -99,15 +100,18 @@ export class VidoesTilesComponent implements OnInit {
   }
 
   constructor(private messageService: MessageService, private api: ApiServiceService) {
+    this.isSpinning = true;
     this.api.listVideoTiles().subscribe(
       (resp) => {
         console.log(resp);
         if (resp.status === 200) {
           this.data = resp.body.results;
+          this.isSpinning = false;
         }
       },
       (error) => {
         console.log(error);
+        this.isSpinning = false;
       }
     );
   }

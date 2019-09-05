@@ -11,6 +11,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 })
 export class NewsComponent implements OnInit {
   data: any[];
+  isSpinning = false;
 
   dataRow: any[] = [{ rowCounts: 10 }, { rowCounts: 20 }, { rowCounts: 50 }, { rowCounts: 100 }];
   rowCount = 10;
@@ -144,15 +145,18 @@ export class NewsComponent implements OnInit {
   };
 
   constructor(private messageService: MessageService, private api: ApiServiceService, private modalService: NzModalService) {
+    this.isSpinning = true;
     this.api.listNews().subscribe(
       (resp) => {
         if (resp.status === 200) {
           console.log(resp);
           this.data = resp.body.results;
+          this.isSpinning = false;
         }
       },
       (error) => {
         console.log(error);
+        this.isSpinning = false;
       }
     );
 
@@ -198,15 +202,17 @@ export class NewsComponent implements OnInit {
       news_url: event.newData.news_url,
       series_id: event.newData.series_id.id
     };
-
+    this.isSpinning = true;
     this.api.updateNews(event.newData.id, data).subscribe(
       (resp) => {
         if (resp.status === 200) {
+          this.isSpinning = false;
           event.confirm.resolve(this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated Successfully' }));
         }
       },
       (error) => {
         console.log(error);
+        this.isSpinning = false;
         event.confirm.reject(this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' }));
       }
     );

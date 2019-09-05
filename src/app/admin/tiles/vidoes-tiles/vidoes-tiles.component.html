@@ -48,9 +48,10 @@
   </div>
 </div>
 
-
-<div class="row">
-  <ng2-smart-table class="table table-responsive" (deleteConfirm)="onDeleteConfirm($event)" (edit)="onEditRow($event)"
-    (editConfirm)="onSaveConfirm($event)" [settings]="settings" [source]="data">
-  </ng2-smart-table>
-</div>
+<nz-spin [nzSpinning]="isSpinning">
+  <div class="row">
+    <ng2-smart-table class="table table-responsive" (deleteConfirm)="onDeleteConfirm($event)" (edit)="onEditRow($event)"
+      (editConfirm)="onSaveConfirm($event)" [settings]="settings" [source]="data">
+    </ng2-smart-table>
+  </div>
+</nz-spin>
