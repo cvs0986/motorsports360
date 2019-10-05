@@ -3,55 +3,84 @@
   <h4><img src="../../../assets/drivers.png" width="40" alt="motorsports"> Motorsports360 Drivers/Events/Teams</h4>
 </div>
 
-<div class="row my-5 bannerAvatarWrap">
-  <div class="col-md-3">
-    <label for="">Driver Banner Image</label>
-    <nz-upload class="avatar-uploader" nzName="avatar" nzListType="picture-card" [nzShowUploadList]="false"
-      (nzChange)="driverAvatarChange($event)">
-      <ng-container *ngIf="!driverAvatarUrl">
-        <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
-        <div class="ant-upload-text">Upload</div>
-      </ng-container>
-      <img *ngIf="driverAvatarUrl" [src]="driverAvatarUrl" class="avatar" />
-    </nz-upload>
+<div class="my-5 bannerAvatarWrap">
+  <div class="row">
+    <div class="col-md-4">
+      <label for="">Driver Banner Image</label>
+      <nz-upload class="avatar-uploader" nzName="avatar" nzListType="picture-card" [nzShowUploadList]="false"
+        (nzChange)="driverAvatarChange($event)">
+        <ng-container *ngIf="!driverAvatarUrl">
+          <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
+          <div class="ant-upload-text">Upload</div>
+        </ng-container>
+        <img *ngIf="driverAvatarUrl" [src]="driverAvatarUrl" class="avatar" />
+      </nz-upload>
+    </div>
+
+    <div class="col-md-4">
+      <label for="">Team Banner Image</label>
+      <nz-upload class="avatar-uploader" nzName="avatar" nzListType="picture-card" [nzShowUploadList]="false"
+        (nzChange)="teamAvatarChange($event)">
+        <ng-container *ngIf="!teamAvatarUrl">
+          <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
+          <div class="ant-upload-text">Upload</div>
+        </ng-container>
+        <img *ngIf="teamAvatarUrl" [src]="teamAvatarUrl" class="avatar" />
+      </nz-upload>
+    </div>
+
+    <div class="col-md-4">
+      <label for="">Event Banner Image</label>
+      <nz-upload class="avatar-uploader" nzName="avatar" nzListType="picture-card" [nzShowUploadList]="false"
+        (nzChange)="eventAvatarChange($event)">
+        <ng-container *ngIf="!eventAvatarUrl">
+          <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
+          <div class="ant-upload-text">Upload</div>
+        </ng-container>
+        <img *ngIf="eventAvatarUrl" [src]="eventAvatarUrl" class="avatar" />
+      </nz-upload>
+    </div>
   </div>
 
-  <div class="col-md-3">
-    <label for="">Team Banner Image</label>
-    <nz-upload class="avatar-uploader" nzName="avatar" nzListType="picture-card" [nzShowUploadList]="false"
-      (nzChange)="teamAvatarChange($event)">
-      <ng-container *ngIf="!teamAvatarUrl">
-        <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
-        <div class="ant-upload-text">Upload</div>
-      </ng-container>
-      <img *ngIf="teamAvatarUrl" [src]="teamAvatarUrl" class="avatar" />
-    </nz-upload>
-  </div>
+  <div class="row mt-4">
+    <div class="col-md-4">
+      <label for="">Leader Banner Image</label>
+      <nz-upload class="avatar-uploader" nzName="avatar" nzListType="picture-card" [nzShowUploadList]="false"
+        (nzChange)="leaderAvatarChange($event)">
+        <ng-container *ngIf="!leaderAvatarUrl">
+          <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
+          <div class="ant-upload-text">Upload</div>
+        </ng-container>
+        <img *ngIf="leaderAvatarUrl" [src]="leaderAvatarUrl" class="avatar" />
+      </nz-upload>
+    </div>
 
-  <div class="col-md-3">
-    <label for="">Event Banner Image</label>
-    <nz-upload class="avatar-uploader" nzName="avatar" nzListType="picture-card" [nzShowUploadList]="false"
-      (nzChange)="eventAvatarChange($event)">
-      <ng-container *ngIf="!eventAvatarUrl">
-        <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
-        <div class="ant-upload-text">Upload</div>
-      </ng-container>
-      <img *ngIf="eventAvatarUrl" [src]="eventAvatarUrl" class="avatar" />
-    </nz-upload>
-  </div>
+    <div class="col-md-4">
+      <label for="">My Series Banner Image</label>
+      <nz-upload class="avatar-uploader" nzName="avatar" nzListType="picture-card" [nzShowUploadList]="false"
+        (nzChange)="seriesAvatarChange($event)">
+        <ng-container *ngIf="!seriesAvatarUrl">
+          <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
+          <div class="ant-upload-text">Upload</div>
+        </ng-container>
+        <img *ngIf="seriesAvatarUrl" [src]="seriesAvatarUrl" class="avatar" />
+      </nz-upload>
+    </div>
 
-  <div class="col-md-3">
-    <label for="">Leader Banner Image</label>
-    <nz-upload class="avatar-uploader" nzName="avatar" nzListType="picture-card" [nzShowUploadList]="false"
-      (nzChange)="leaderAvatarChange($event)">
-      <ng-container *ngIf="!leaderAvatarUrl">
-        <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
-        <div class="ant-upload-text">Upload</div>
-      </ng-container>
-      <img *ngIf="leaderAvatarUrl" [src]="leaderAvatarUrl" class="avatar" />
-    </nz-upload>
+    <div class="col-md-4">
+      <label for="">Saved Stories Banner Image</label>
+      <nz-upload class="avatar-uploader" nzName="avatar" nzListType="picture-card" [nzShowUploadList]="false"
+        (nzChange)="savedStoriesAvatarChange($event)">
+        <ng-container *ngIf="!savedStoriesAvatarUrl">
+          <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
+          <div class="ant-upload-text">Upload</div>
+        </ng-container>
+        <img *ngIf="savedStoriesAvatarUrl" [src]="savedStoriesAvatarUrl" class="avatar" />
+      </nz-upload>
+    </div>
   </div>
 </div>
+
 
 <nz-spin [nzSpinning]="isSpinning">
   <div class="row">

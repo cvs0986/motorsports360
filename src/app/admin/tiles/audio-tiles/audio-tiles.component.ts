@@ -4,11 +4,13 @@ import { ApiServiceService } from 'src/app/service/api-service.service';
 import { UploadFile } from 'ng-zorro-antd';
 
 @Component({
-  selector: 'app-vidoes-tiles',
-  templateUrl: './vidoes-tiles.component.html',
-  styleUrls: ['./vidoes-tiles.component.css']
+  selector: 'app-audio-tiles',
+  templateUrl: './audio-tiles.component.html',
+  styleUrls: ['./audio-tiles.component.css']
 })
-export class VidoesTilesComponent implements OnInit {
+
+export class AudioTilesComponent implements OnInit {
+
   data: any[];
   isSpinning = false;
 
@@ -110,7 +112,7 @@ export class VidoesTilesComponent implements OnInit {
 
   constructor(private messageService: MessageService, private api: ApiServiceService) {
     this.isSpinning = true;
-    this.api.listVideoTiles().subscribe(
+    this.api.listAudioTiles().subscribe(
       (resp) => {
         console.log(resp);
         if (resp.status === 200) {
@@ -137,7 +139,9 @@ export class VidoesTilesComponent implements OnInit {
       main: event.newData.main
     };
 
-    this.api.updateVideoTiles(event.newData.id, data).subscribe(
+    console.log(event);
+
+    this.api.updateAudioTiles(event.newData.id, data).subscribe(
       (resp) => {
         console.log(resp);
         if (resp.status === 200) {
@@ -152,7 +156,7 @@ export class VidoesTilesComponent implements OnInit {
   }
 
   onDeleteConfirm(event): void {
-    this.api.deleteVideoTiles(event.data.id).subscribe(
+    this.api.deleteAudioTiles(event.data.id).subscribe(
       (resp) => {
         console.log(resp);
         if (resp.status === 204) {
@@ -179,18 +183,18 @@ export class VidoesTilesComponent implements OnInit {
     this.showAddNewsForm = true;
   }
 
-  publishVideo(): void {
+  publishAudio(): void {
     const formData = new FormData();
     formData.append('image_url', this.avatarFile);
     formData.append('name', this.name);
     formData.append('url', this.url);
     this.isLoadingTwo = true;
     console.log(formData);
-    this.api.addVideoTiles(formData).subscribe(
+    this.api.addAudioTiles(formData).subscribe(
       (resp) => {
         console.log(resp);
         if (resp.status === 201) {
-          this.api.listVideoTiles().subscribe(
+          this.api.listAudioTiles().subscribe(
             (resp) => {
               console.log(resp);
               if (resp.status === 200) {
@@ -198,7 +202,7 @@ export class VidoesTilesComponent implements OnInit {
                 this.isLoadingTwo = false;
                 this.addBtn = true;
                 this.showAddNewsForm = false;
-                this.messageService.add({ severity: 'success', summary: 'Congratulations', detail: 'Video published successfully!' });
+                this.messageService.add({ severity: 'success', summary: 'Congratulations', detail: 'Audio published successfully!' });
               }
             },
             (error) => {

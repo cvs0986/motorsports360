@@ -10,6 +10,7 @@ import { AudiosComponent } from './admin/audios/audios.component';
 import { AuthorComponent } from './admin/author/author.component';
 import { DriversComponent } from './admin/drivers/drivers.component';
 import { VidoesTilesComponent } from './admin/tiles/vidoes-tiles/vidoes-tiles.component';
+import { AudioTilesComponent } from './admin/tiles/audio-tiles/audio-tiles.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full'},
@@ -25,6 +26,7 @@ const routes: Routes = [
     { path: 'author', component: AuthorComponent},
     { path: 'drivers', component: DriversComponent},
     {path: 'vidoes-tiles', component: VidoesTilesComponent},
+    {path: 'audio-tiles', component: AudioTilesComponent},
   ]}
 ];
 

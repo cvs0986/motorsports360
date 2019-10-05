@@ -216,16 +216,20 @@ export class AuthorComponent implements OnInit {
         console.log(event.data);
         const formData = new FormData();
         formData.append('author_id', event.data.id);
+        this.isSpinning = true;
         this.api.scrapAuthor(formData).subscribe(
           (resp) => {
             console.log(formData, resp);
             if (resp.status === 200) {
-              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Scrap Successfull' });
+              this.isSpinning = false;
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Scrap Successful' });
             } else {
+              this.isSpinning = false;
               this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' });
             }
           },
           (error) => {
+            this.isSpinning = false;
             console.log(error);
           }
         );

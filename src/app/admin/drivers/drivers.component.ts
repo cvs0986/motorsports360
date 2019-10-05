@@ -26,6 +26,12 @@ export class DriversComponent implements OnInit {
   leaderAvatarUrl: string;
   leaderAvatarFile;
 
+  seriesAvatarUrl: string;
+  seriesAvatarFile;
+
+  savedStoriesAvatarUrl: string;
+  savedStoriesAvatarFile;
+
   name;
   image_url;
   authorID;
@@ -210,6 +216,54 @@ export class DriversComponent implements OnInit {
     });
   }
 
+  seriesAvatarChange(info: { file: UploadFile }): void {
+    // tslint:disable-next-line: no-non-null-assertion
+    this.getBase64(info.file!.originFileObj!, (img: string) => {
+      this.loading = false;
+      this.seriesAvatarUrl = img;
+      // tslint:disable-next-line: no-non-null-assertion
+      this.seriesAvatarFile = info.file!.originFileObj!;
+      const data = new FormData();
+      data.append('my_series_banner_image', this.seriesAvatarFile);
+
+      this.api.updateSeriesBanner(1, data).subscribe(
+        (resp) => {
+          console.log(resp, this.seriesAvatarFile);
+          this.eventAvatarUrl = resp.body.my_series_banner_image;
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Series Banner changed Successfully!' });
+        },
+        (error) => {
+          console.log(error, this.seriesAvatarFile);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' });
+        }
+      );
+    });
+  }
+
+  savedStoriesAvatarChange(info: { file: UploadFile }): void {
+    // tslint:disable-next-line: no-non-null-assertion
+    this.getBase64(info.file!.originFileObj!, (img: string) => {
+      this.loading = false;
+      this.savedStoriesAvatarUrl = img;
+      // tslint:disable-next-line: no-non-null-assertion
+      this.savedStoriesAvatarFile = info.file!.originFileObj!;
+      const data = new FormData();
+      data.append('saved_series_banner_image', this.savedStoriesAvatarFile);
+
+      this.api.updateLeaderBanner(1, data).subscribe(
+        (resp) => {
+          console.log(resp, this.savedStoriesAvatarFile);
+          this.eventAvatarUrl = resp.body.saved_series_banner_image;
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Saved Stories Banner changed Successfully!' });
+        },
+        (error) => {
+          console.log(error, this.savedStoriesAvatarFile);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong!' });
+        }
+      );
+    });
+  }
+
 // tslint:disable-next-line: max-line-length
   constructor(private messageService: MessageService, private api: ApiServiceService, private msg: NzMessageService, private modalService: NzModalService) {
     this.api.getBannerImages().subscribe(
@@ -219,6 +273,8 @@ export class DriversComponent implements OnInit {
         this.eventAvatarUrl = resp.body.results[0].event_banner_image;
         this.teamAvatarUrl = resp.body.results[0].team_banner_image;
         this.leaderAvatarUrl = resp.body.results[0].leader_banner_image;
+        this.seriesAvatarUrl = resp.body.results[0].my_series_banner_image;
+        this.savedStoriesAvatarUrl = resp.body.results[0].saved_series_banner_image;
       },
       (error) => {
         console.log(error);

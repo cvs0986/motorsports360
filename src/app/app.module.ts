@@ -18,6 +18,7 @@ import { CalendarModule } from 'primeng/calendar';
 
 // Others Import
 import { Ng2SmartTableModule } from "ng2-smart-table";
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NgZorroAntdModule, NZ_I18N, en_US } from "ng-zorro-antd";
 
 // Components
@@ -33,6 +34,8 @@ import { AudiosComponent } from './admin/audios/audios.component';
 import { AuthorComponent } from './admin/author/author.component';
 import { DriversComponent } from './admin/drivers/drivers.component';
 import { VidoesTilesComponent } from './admin/tiles/vidoes-tiles/vidoes-tiles.component';
+import { AudioTilesComponent } from './admin/tiles/audio-tiles/audio-tiles.component';
+import { CheckboxComponentComponent } from './admin/extra-component/checkbox-component/checkbox-component.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,9 @@ import { VidoesTilesComponent } from './admin/tiles/vidoes-tiles/vidoes-tiles.co
     AudiosComponent,
     AuthorComponent,
     DriversComponent,
-    VidoesTilesComponent
+    VidoesTilesComponent,
+    AudioTilesComponent,
+    CheckboxComponentComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +67,8 @@ import { VidoesTilesComponent } from './admin/tiles/vidoes-tiles/vidoes-tiles.co
     InputTextareaModule,
     Ng2SmartTableModule,
     CalendarModule,
-    NgZorroAntdModule
+    NgZorroAntdModule,
+    NzCheckboxModule
   ],
   providers: [ApiServiceService, MessageService, HttpClientModule, {provide: NZ_I18N, useValue: en_US}],
   bootstrap: [AppComponent]

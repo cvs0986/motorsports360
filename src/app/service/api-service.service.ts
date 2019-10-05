@@ -409,6 +409,32 @@ export class ApiServiceService {
     });
   }
 
+  updateSeriesBanner(id, data) {
+    const headers = new HttpHeaders({
+      Authorization: `Token ${this.access_token}`
+    });
+
+    return this.http.patch<any>(`${this.url}variables/${id}/`, data, {
+      observe: 'response',
+      responseType: 'json',
+      headers,
+      withCredentials: true
+    });
+  }
+
+  updateSavedStoryBanner(id, data) {
+    const headers = new HttpHeaders({
+      Authorization: `Token ${this.access_token}`
+    });
+
+    return this.http.patch<any>(`${this.url}variables/${id}/`, data, {
+      observe: 'response',
+      responseType: 'json',
+      headers,
+      withCredentials: true
+    });
+  }
+
   listVideoTiles() {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -471,6 +497,63 @@ export class ApiServiceService {
       Authorization: `Token ${this.access_token}`
     });
     return this.http.post<any>(this.url + 'scraping/', data, {
+      observe: 'response',
+      responseType: 'json',
+      headers,
+      withCredentials: true
+    });
+  }
+
+  listAudioTiles() {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Token ${this.access_token}`
+    });
+
+    return this.http.get<any>(this.url + 'audio_tiles/', {
+      observe: 'response',
+      responseType: 'json',
+      headers,
+      withCredentials: true
+    });
+  }
+
+  updateAudioTiles(id, data) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Token ${this.access_token}`
+    });
+
+    return this.http.patch<any>(`${this.url}audio_tiles/${id}/`, data, {
+      observe: 'response',
+      responseType: 'json',
+      headers,
+      withCredentials: true
+    });
+  }
+
+  deleteAudioTiles(id) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Token ${this.access_token}`
+    });
+
+    return this.http.delete<any>(`${this.url}audio_tiles/${id}/`, {
+      observe: 'response',
+      responseType: 'json',
+      headers,
+      withCredentials: true
+    });
+  }
+
+  addAudioTiles(data) {
+    const headers = new HttpHeaders({
+      Authorization: `Token ${this.access_token}`
+    });
+    return this.http.post<any>(this.url + 'audio_tiles/', data, {
       observe: 'response',
       responseType: 'json',
       headers,
