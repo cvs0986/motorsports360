@@ -15,6 +15,7 @@ export class VidoesTilesComponent implements OnInit {
   name;
   url;
   imageUrl;
+  checked = false;
 
   loading = false;
   avatarUrl: string;
@@ -180,10 +181,12 @@ export class VidoesTilesComponent implements OnInit {
   }
 
   publishVideo(): void {
-    const formData = new FormData();
+    const formData: any = new FormData();
     formData.append('image_url', this.avatarFile);
     formData.append('name', this.name);
     formData.append('url', this.url);
+    formData.append('main', this.checked);
+
     this.isLoadingTwo = true;
     console.log(formData);
     this.api.addVideoTiles(formData).subscribe(

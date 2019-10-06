@@ -27,7 +27,7 @@
     </div>
   </div>
   <div class="row mt-3">
-    <div class="col-md-6">
+    <div class="col-md-3">
       <nz-upload class="avatar-uploader" nzName="avatar" nzListType="picture-card" [nzShowUploadList]="false"
         (nzChange)="handleChange($event)">
         <ng-container *ngIf="!avatarUrl">
@@ -36,6 +36,9 @@
         </ng-container>
         <img *ngIf="avatarUrl" [src]="avatarUrl" class="avatar" />
       </nz-upload>
+    </div>
+    <div class="col-md-2">
+      <label nz-checkbox [(ngModel)]="checked">Main</label>
     </div>
   </div>
   <div class="row mt-3">
