@@ -249,7 +249,7 @@ export class AudiosComponent implements OnInit {
 
   publishAudio(): void {
     const data = {
-      title: this.audioHeadline,
+      headline: this.audioHeadline,
       date: this.changeDate(this.audioDate),
       time: this.changeTime(this.audioTime),
       image_url: this.audioImageUrl,
@@ -257,7 +257,8 @@ export class AudiosComponent implements OnInit {
       url: this.audioUrl,
       description: this.audioDescription,
       author_id: this.audioAuthor
-    }
+    };
+
     this.isLoadingTwo = true;
     console.log(data);
     this.api.addAudio(data).subscribe(
