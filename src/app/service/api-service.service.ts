@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders, HttpClientModule} from '@angular/common/http';
   providedIn: 'root'
 })
 export class ApiServiceService {
-  url = 'http://35.184.44.50/';
+  url = 'http://54.252.158.61/';
 // tslint:disable-next-line: variable-name
   access_token = localStorage.getItem('access_token');
 

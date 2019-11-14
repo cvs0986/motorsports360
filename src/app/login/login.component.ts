@@ -24,8 +24,8 @@ export class LoginComponent implements OnInit {
     const loginData = {
       username: this.username,
       password: this.password
-    }
-    
+    };
+
     if (this.username == '' || this.username == undefined) {
       this.messageService.add({ severity: 'error', summary: 'Invalid Credentials!', detail: 'username and password is required!' });
     } else if (this.password == '' || this.password == undefined) {

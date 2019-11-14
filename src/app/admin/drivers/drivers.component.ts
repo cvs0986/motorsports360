@@ -300,7 +300,14 @@ export class DriversComponent implements OnInit {
   }
 
   onSaveConfirm(event): void {
-    this.api.updateDrivers(event.newData.id, event.newData).subscribe(
+    const data = {
+      driver_url: event.newData.driver_url,
+      event_url: event.newData.event_url,
+      leader_url: event.newData.leader_url,
+      name: event.newData.name,
+      team_url: event.newData.team_url
+    };
+    this.api.updateDrivers(event.newData.id, data).subscribe(
       (resp) => {
         console.log(resp);
         if (resp.status === 200) {
